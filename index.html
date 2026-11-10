@@ -1,0 +1,1778 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pausa Bienestar</title>
+<meta name="theme-color" content="#157A7E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Diseño: app móvil de bienestar. Portada con degradé verde azulado y "Brote", un compañero que crece con tu práctica.
+   Tarjetas claras con sombra suave, barra inferior de 5 lugares con botón central "+" para agregar un síntoma. */
+:root{
+  --bg:#F2F6F5; --surface:#FFFFFF; --surface-2:#E7EEED; --ink:#12242A; --muted:#566B70; --line:#D6E1E0;
+  --accent:#157A7E; --accent-ink:#FFFFFF; --accent-soft:#D6EEED;
+  --sun:#F0B13E; --sun-ink:#4A3000; --sun-soft:#FFF1D1;
+  --care-bg:#FFF1E3; --care-ink:#6B3300; --care-line:#EFC594;
+  --m1:#C4585F; --m2:#D98A5B; --m3:#CDB75A; --m4:#7DB58A; --m5:#2E9A8B;
+  --q1:#FFF0C7; --q2:#FFE0DE; --q3:#DDF1E2; --q4:#DCE9F7;
+  --c-breath:#2F8FC4; --c-med:#2E9A6B; --c-sleep:#6B69BE; --c-cbt:#C98A1E; --c-chat:#D1566A; --c-learn:#157A7E;
+  --hero-a:#0D5159; --hero-b:#17868A; --hero-c:#7BCBAA;
+  --brote:#8EDDBC; --leaf:#4FB286; --leaf-d:#2F8A64; --bloom:#F4A3B6; --face:#14323A;
+  --shadow:0 1px 2px rgba(18,36,42,.06),0 10px 28px rgba(18,36,42,.08);
+  --font-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --font-body:'Figtree','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1619; --surface:#14252A; --surface-2:#1B3238; --ink:#E6F1F0; --muted:#9CB3B6; --line:#27403F;
+    --accent:#5CC9CC; --accent-ink:#06191C; --accent-soft:#17383C;
+    --sun:#F2C25F; --sun-ink:#FFE2A0; --sun-soft:#3A2D12;
+    --care-bg:#33261A; --care-ink:#FFD9AE; --care-line:#5C4126;
+    --m1:#D9777E; --m2:#E39C72; --m3:#D6C26A; --m4:#8BC498; --m5:#4DB5A5;
+    --q1:#3A3217; --q2:#3C2321; --q3:#1F3727; --q4:#1E3045;
+    --c-breath:#6DB8E3; --c-med:#6CC59E; --c-sleep:#9A98E0; --c-cbt:#EDB85A; --c-chat:#EE9AA5; --c-learn:#5CC9CC;
+    --hero-a:#093C42; --hero-b:#106A6D; --hero-c:#3E9E86;
+    --brote:#7BD1AE; --leaf:#4FB286; --leaf-d:#8FE0B8; --bloom:#F4A3B6; --face:#10282E;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1619; --surface:#14252A; --surface-2:#1B3238; --ink:#E6F1F0; --muted:#9CB3B6; --line:#27403F;
+  --accent:#5CC9CC; --accent-ink:#06191C; --accent-soft:#17383C;
+  --sun:#F2C25F; --sun-ink:#FFE2A0; --sun-soft:#3A2D12;
+  --care-bg:#33261A; --care-ink:#FFD9AE; --care-line:#5C4126;
+  --m1:#D9777E; --m2:#E39C72; --m3:#D6C26A; --m4:#8BC498; --m5:#4DB5A5;
+  --q1:#3A3217; --q2:#3C2321; --q3:#1F3727; --q4:#1E3045;
+  --c-breath:#6DB8E3; --c-med:#6CC59E; --c-sleep:#9A98E0; --c-cbt:#EDB85A; --c-chat:#EE9AA5; --c-learn:#5CC9CC;
+  --hero-a:#093C42; --hero-b:#106A6D; --hero-c:#3E9E86;
+  --brote:#7BD1AE; --leaf:#4FB286; --leaf-d:#8FE0B8; --bloom:#F4A3B6; --face:#10282E;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--font-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body.lock{overflow:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
+button{font-family:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.face{display:block;flex:none}
+
+.app{max-width:520px;margin:0 auto;padding-bottom:130px}
+h1{font:700 29px/1.15 var(--font-display);letter-spacing:-.02em;margin:12px 0 8px;text-wrap:balance}
+h2{font:700 19px/1.25 var(--font-display);letter-spacing:-.01em;margin:0 0 4px;text-wrap:balance}
+h3{font:600 12.5px/1.3 var(--font-body);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:18px 0 6px}
+p{margin:0 0 10px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 6px}
+.fine{font-size:13px;color:var(--muted);margin-top:22px}
+.eyebrow{font:600 12.5px/1.2 var(--font-body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:14px 0 0}
+
+/* Cabecera */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg);display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0}
+.brand{display:flex;align-items:center;gap:8px;font:700 22px/1 var(--font-display);letter-spacing:-.01em}
+.brand svg{width:28px;height:28px;color:var(--accent)}
+.top-r{display:flex;align-items:center;gap:8px}
+.help-btn{font:600 13.5px/1 var(--font-body);color:var(--care-ink);background:var(--care-bg);border:1px solid var(--care-line);border-radius:999px;padding:9px 12px;cursor:pointer}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:700 16px var(--font-display);border:0;cursor:pointer;display:grid;place-items:center}
+
+/* Botones y piezas comunes */
+.btn{display:block;width:100%;border:0;border-radius:16px;background:var(--accent);color:var(--accent-ink);font:600 16px/1.2 var(--font-body);padding:15px 20px;cursor:pointer;text-align:center}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{display:inline-block;width:auto;padding:10px 16px;font-size:14.5px;border-radius:14px}
+.link-btn{background:none;border:0;padding:4px 0;color:var(--accent);font:600 14px var(--font-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.link-btn.danger{color:var(--m1)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow)}
+.card + .card{margin-top:14px}
+.banner,.demo{background:var(--surface-2);border-radius:14px;padding:10px 14px;font-size:14px;margin:10px 0 0}
+.pill{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;background:var(--surface-2);color:var(--ink);border-radius:999px;padding:4px 10px;width:fit-content}
+.pill i{width:9px;height:9px;border-radius:50%;display:block}
+.pill.sun{background:var(--sun-soft);color:var(--sun-ink)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-size:12.5px;background:var(--surface-2);border-radius:999px;padding:3px 10px}
+.tag.ex{background:transparent;border:1px dashed var(--muted);color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 14px;font-size:15px;cursor:pointer;line-height:1.25}
+.chip.sm{padding:6px 11px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:500}
+.chip[aria-pressed="true"]::before{content:"\2713\00a0"}
+.chip.care{border-color:var(--care-line);background:var(--care-bg);color:var(--care-ink)}
+.chip.care[aria-pressed="true"]{background:var(--care-ink);color:var(--care-bg);border-color:var(--care-ink)}
+.sub{font-size:13.5px;color:var(--muted);margin:16px 0 8px}
+input[type=text],input[type=date],input[type=time],textarea,.inp{font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;width:100%;min-width:0}
+textarea{resize:vertical;min-height:110px}
+.field{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.field label{font-size:14px;font-weight:600}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:380px){.two{grid-template-columns:minmax(0,1fr)}}
+.sec-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.sec-head h2{margin:0}
+.home-sec{margin-top:30px}
+
+/* Portada */
+.hero{position:relative;overflow:hidden;color:#fff;border-radius:28px;padding:20px 18px 18px;background:linear-gradient(155deg,var(--hero-a) 0%,var(--hero-b) 58%,var(--hero-c) 135%);box-shadow:var(--shadow);margin-top:6px}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,.14);pointer-events:none}
+.hero::before{width:260px;height:260px;right:-90px;top:-80px}
+.hero::after{width:430px;height:430px;right:-180px;top:-170px}
+.hero-top{display:flex;gap:6px;align-items:flex-start;position:relative}
+.hero-txt{flex:1;min-width:0}
+.hero .eyebrow{color:rgba(255,255,255,.75);margin-top:4px}
+.hero h1{color:#fff;font-size:31px;margin:6px 0 6px}
+.hero-say{margin:0;color:rgba(255,255,255,.88);font-size:15px;max-width:26ch}
+.hero-brote{width:116px;flex:none;margin-top:-2px}
+.hero-brote svg{width:100%;height:auto;display:block}
+.btn.cta{background:#fff;color:var(--hero-a);margin-top:16px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:17px;padding:16px 18px;position:relative}
+.btn.cta .plus{font:600 26px/1 var(--font-body);margin-top:-3px}
+.hero-stats{display:flex;gap:10px;margin-top:14px;position:relative}
+.hs{flex:1;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.14);border-radius:14px;padding:9px 12px;min-width:0}
+.hs .ic{width:22px;height:22px;color:#FFD27A}
+.hs div{display:flex;flex-direction:column;min-width:0}
+.hs b{font:700 15px/1.2 var(--font-display)}
+.hs span{font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.2}
+.xpbar{height:7px;border-radius:99px;background:rgba(255,255,255,.2);margin-top:12px;overflow:hidden;position:relative}
+.xpbar span{display:block;height:100%;background:#FFD27A;border-radius:99px}
+
+/* Misiones */
+.quests{padding:6px 10px}
+.quest{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;padding:10px 6px;text-align:left;cursor:pointer;border-radius:14px}
+.quest + .quest{border-top:1px solid var(--line);border-radius:0}
+.quest .qc{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none;color:var(--accent-ink)}
+.quest .qc .ic{width:16px;height:16px;stroke-width:3}
+.quest.done .qc{background:var(--accent);border-color:var(--accent)}
+.quest .qm{flex:1;min-width:0;display:flex;flex-direction:column}
+.quest .qm b{font-size:15.5px}
+.quest .qm small{color:var(--muted);font-size:13px}
+.quest .qx{font-size:12.5px;font-weight:600;color:var(--sun-ink);background:var(--sun-soft);border-radius:999px;padding:3px 9px;flex:none}
+.quest.done .qm b{text-decoration:line-through;color:var(--muted)}
+.quest:disabled{cursor:default}
+
+/* Carruseles y tarjetas de acción */
+.arrows{display:flex;gap:8px}
+.arrows button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:20px;cursor:pointer;line-height:1;padding:0 0 3px}
+.carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 14px;margin:0 -2px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.act{flex:0 0 min(70%,236px);scroll-snap-align:start;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0;box-shadow:var(--shadow)}
+.act-ic{position:relative;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:var(--c);flex:none}
+.act-ic::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--c);opacity:.15}
+.act-ic .ic{position:relative}
+.act-k{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--c);margin-top:6px}
+.act-t{font:700 17px/1.2 var(--font-display);letter-spacing:-.01em;text-wrap:balance}
+.act-s{font-size:13.5px;color:var(--muted);flex:1}
+.arow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px;cursor:pointer;box-shadow:var(--shadow)}
+.arow + .arow{margin-top:10px}
+.arow .act-ic{width:42px;height:42px}
+.arow-m{flex:1;min-width:0;display:flex;flex-direction:column}
+.arow-m b{font-size:15.5px;line-height:1.25}
+.arow-m small{color:var(--muted);font-size:13px;line-height:1.3}
+.arow .ic.chev{width:18px;height:18px;color:var(--muted)}
+.rows{display:flex;flex-direction:column}
+.gridact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.gridact .act{flex:none}
+.big{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:0;border-radius:24px;padding:18px;color:#fff;cursor:pointer;background:linear-gradient(150deg,#C84E66,#E58A7B);box-shadow:var(--shadow)}
+.big b{font:700 20px/1.2 var(--font-display);display:block}
+.big span{font-size:14px;opacity:.92}
+.big .brote-s{width:70px;flex:none}
+.big .brote-s svg{width:100%;height:auto;display:block}
+
+/* Semana / progreso */
+.chart{display:block;width:100%;height:auto;margin-top:8px}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .line{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.chart .pt{stroke:var(--surface);stroke-width:2}
+.chart text{fill:var(--muted);font:10.5px var(--font-body)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:10px}
+.cal .dow{font-size:11px;color:var(--muted);text-align:center}
+.cal .day{aspect-ratio:1;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;max-width:100%}
+.cal .day i{font-style:normal;font-size:11.5px;color:var(--muted)}
+.cal .day[style] i{color:#14323A;font-weight:600}
+.cal .day.fut{opacity:.35}
+.cal .day.today{outline:2px solid var(--accent);outline-offset:1px}
+.legend{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted)}
+.legend span.sw{display:flex;gap:3px}
+.legend i{width:14px;height:14px;border-radius:5px;display:block}
+.irow{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) auto;gap:10px;align-items:center;margin-top:12px;font-size:14.5px}
+.itrack{position:relative;height:10px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.itrack::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--bg)}
+.ifill{position:absolute;top:0;bottom:0}
+.ifill.pos{left:50%;background:var(--accent);border-radius:0 99px 99px 0}
+.ifill.neg{right:50%;background:var(--m2);border-radius:99px 0 0 99px}
+.iv{font:600 13.5px var(--font-body);min-width:3.2em;text-align:right;font-variant-numeric:tabular-nums}
+.bars{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;font-size:14.5px}
+.bar .track{grid-column:1 / -1;height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.bar .fill{display:block;height:100%;background:var(--accent);border-radius:99px}
+.badges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 8px;margin-top:12px}
+.badge{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:11.5px;line-height:1.2}
+.badge .bi{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--sun-soft);color:var(--sun-ink)}
+.badge.lock{opacity:.4;filter:grayscale(1)}
+.entries{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.entry{background:var(--surface-2);border-radius:14px;padding:12px 14px}
+.entry .row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+.entry .row b{display:flex;align-items:center;gap:8px}
+.entry p{margin:8px 0 0;font-size:14.5px;color:var(--muted)}
+
+/* Informes y síntomas (detalles) */
+details.sym{background:var(--surface);border:1px solid var(--line);border-radius:18px}
+details.sym + details.sym{margin-top:10px}
+details.sym > summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;font:700 17px/1.2 var(--font-display)}
+details.sym > summary::-webkit-details-marker{display:none}
+details.sym > summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s;flex:none;margin-right:4px}
+details.sym[open] > summary::after{transform:rotate(-135deg)}
+.sym-body{padding:0 18px 18px}
+.sym-body ul,.sym-body ol,.report ul,.report ol{margin:0 0 6px;padding-left:20px}
+.sym-body li,.report li{margin-bottom:6px}
+.links{list-style:none;padding:0!important}
+.links a{color:var(--accent);font-weight:500}
+.when{background:var(--surface-2);border-radius:14px;padding:12px 14px;font-size:14.5px;margin-top:16px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;box-shadow:var(--shadow)}
+.tile.soft{background:var(--accent-soft);border-color:transparent;box-shadow:none}
+.tile h2{font-size:17px;margin:0}
+.tile p{margin:0;font-size:14.5px;flex:1}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:420px){.duo{grid-template-columns:minmax(0,1fr)}}
+.todo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.todo li{display:flex;gap:12px;align-items:baseline;font-size:15px;min-width:0}
+.todo b{font:700 15px var(--font-display);min-width:3.4em;font-variant-numeric:tabular-nums;color:var(--accent)}
+.nudge-card{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
+.nudge-card.strong{background:var(--care-bg);border-color:var(--care-line);color:var(--care-ink)}
+.nudge-card.strong h2{color:var(--care-ink)}
+.nudge-card p{font-size:14.5px;margin-bottom:12px}
+.nc-ic{width:44px;height:44px;border-radius:14px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.nudge-card.strong .nc-ic{background:var(--care-ink);color:var(--care-bg)}
+.care-card{background:var(--care-bg);color:var(--care-ink);border:1px solid var(--care-line);border-radius:20px;padding:18px;margin:16px 0}
+.care-card h2{color:var(--care-ink)}
+.care-card a{color:inherit}
+.lines{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.lines li{display:flex;flex-direction:column;gap:2px}
+.lines strong{font:700 22px/1.1 var(--font-display)}
+.lines span{font-size:14px}
+
+/* Profesionales */
+.pro{display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;cursor:pointer;box-shadow:var(--shadow)}
+.pro + .pro{margin-top:12px}
+.pav{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;flex:none;font:700 20px var(--font-display);color:var(--c);position:relative}
+.pav::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--c);opacity:.16}
+.pav span{position:relative}
+.pro-m{flex:1;min-width:0}
+.pro-m b{display:block;font-size:16px}
+.pro-m small{display:block;color:var(--muted);font-size:13.5px;line-height:1.3}
+.slot{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:9px 12px;font-size:14.5px;cursor:pointer}
+.slot[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.checkrow{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;margin-top:14px;cursor:pointer}
+.checkrow input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent);flex:none}
+.when-list{margin:8px 0 0;padding-left:20px}
+.when-list li{margin-bottom:6px}
+
+/* Recordatorios */
+.rems{display:flex;flex-direction:column;gap:10px}
+.rem{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;background:var(--surface-2);border-radius:14px;padding:12px 14px}
+.rem.off .rt{color:var(--muted)}
+.rem .rt{font-weight:600;font-size:15px;line-height:1.3;overflow-wrap:anywhere}
+.rem .rs{font-size:13px;color:var(--muted)}
+.rem .acts{grid-column:2 / -1;display:flex;gap:16px}
+.rem input[type=time]{width:auto;padding:8px}
+.switch{width:44px;height:26px;border-radius:99px;border:0;background:var(--line);position:relative;cursor:pointer;padding:0;flex:none}
+.switch span{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--surface);transition:transform .15s}
+.switch[aria-checked="true"]{background:var(--accent)}
+.switch[aria-checked="true"] span{transform:translateX(18px);background:var(--accent-ink)}
+.idea{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14.5px;margin-top:8px}
+.idea div{min-width:0}
+
+/* Sonidos */
+.snd{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.snd .chip{display:inline-flex;align-items:center;gap:8px}
+.snd .chip .ic{width:18px;height:18px}
+
+/* Flujos a pantalla completa */
+[hidden]{display:none!important}
+.flow{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;justify-content:center;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) 0 env(safe-area-inset-left,0px)}
+.flow-in{width:100%;max-width:520px;display:flex;flex-direction:column;min-height:0;padding:0 16px}
+.flow-top{display:flex;align-items:center;gap:12px;padding:12px 0}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:0;background:var(--surface);box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;flex:none}
+.icon-btn .ic{width:20px;height:20px}
+.flow-progress{flex:1;height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.flow-progress span{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .25s}
+.flow-body{flex:1;min-height:0;overflow:auto;padding:6px 0 24px}
+.flow-foot{padding:12px 0 calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.flow-foot .link-btn{align-self:center}
+.flow-title{font:600 13px var(--font-body);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:4px 0 0}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.opt{text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:13px 15px;font-size:16px;cursor:pointer;line-height:1.3}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.moodrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:16px}
+.mood2{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 2px 10px;border-radius:18px;border:2px solid transparent;background:var(--surface);cursor:pointer;font-size:12px;color:var(--muted);text-align:center;line-height:1.2;box-shadow:var(--shadow)}
+.mood2[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);font-weight:600;transform:translateY(-3px)}
+.quad{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.q{border-radius:20px;padding:12px;background:var(--tint)}
+.q b{display:block;font-size:12.5px;margin-bottom:8px;line-height:1.25}
+.q .chips{gap:6px}
+.slider{margin-top:22px}
+.slider input[type=range]{width:100%;accent-color:var(--accent)}
+.sl-l{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-top:6px}
+.sl-l b{font:700 26px var(--font-display);color:var(--ink)}
+.res-top{display:flex;align-items:center;gap:12px}
+.res-top .brote-s{width:96px;flex:none}
+.res-top .brote-s svg{width:100%;height:auto;display:block}
+.gain{display:inline-flex;gap:6px;align-items:center;background:var(--sun-soft);color:var(--sun-ink);border-radius:999px;padding:4px 12px;font-weight:600;font-size:14px}
+.gains{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.done{text-align:center;padding-top:10px}
+.done .brote-s{width:150px;margin:0 auto}
+.done .brote-s svg{width:100%;height:auto;display:block}
+.quote{background:var(--surface-2);border-radius:16px;padding:12px 14px;text-align:left;margin-top:14px;font-size:15px}
+.welcome{text-align:center;padding-top:6px}
+.welcome .brote-s{width:190px;margin:0 auto}
+.welcome .brote-s svg{width:100%;height:auto;display:block}
+.vals{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;text-align:left}
+.vals li{display:flex;gap:12px;align-items:flex-start}
+.vals .act-ic{width:38px;height:38px;border-radius:12px}
+
+/* Respiración y meditación */
+.orb{width:250px;height:250px;margin:18px auto;display:grid;place-items:center;position:relative}
+.orb::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px dashed var(--line)}
+.orb-core{width:230px;height:230px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--hero-c),var(--hero-b) 55%,var(--hero-a));transform:scale(.55);box-shadow:0 0 60px rgba(30,160,150,.35)}
+.center{text-align:center}
+.phase{font:700 28px/1.1 var(--font-display)}
+.count{font:600 18px var(--font-body);color:var(--muted);min-height:1.5em}
+.ringwrap{position:relative;width:220px;height:220px;margin:10px auto}
+.ringwrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ringwrap .rt{position:absolute;inset:0;display:grid;place-items:center;font:700 40px var(--font-display);font-variant-numeric:tabular-nums}
+.prompt{min-height:5.2em;font:500 19px/1.4 var(--font-body);text-align:center;margin:8px 0;text-wrap:balance}
+.ctrl{display:flex;justify-content:center;gap:14px;margin-top:6px}
+.ctrl .icon-btn{width:56px;height:56px}
+.ctrl .icon-btn .ic{width:26px;height:26px}
+
+/* Guía conversacional */
+.chat{display:flex;flex-direction:column;gap:10px;padding-bottom:8px}
+.b{max-width:86%;padding:10px 14px;border-radius:20px;font-size:15.5px;line-height:1.45;overflow-wrap:anywhere}
+.b.bot{background:var(--surface);align-self:flex-start;border-bottom-left-radius:6px;box-shadow:var(--shadow)}
+.b.me{background:var(--accent);color:var(--accent-ink);align-self:flex-end;border-bottom-right-radius:6px}
+.typing{display:inline-flex;gap:4px;padding:4px 2px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);opacity:.5;animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:1}}
+.replies{display:flex;flex-wrap:wrap;gap:8px}
+.reply{border:1.5px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:999px;padding:9px 14px;font:600 14.5px var(--font-body);cursor:pointer}
+.sendrow{display:flex;gap:8px}
+.sendrow .inp{flex:1}
+.sendrow .icon-btn{background:var(--accent);color:var(--accent-ink);box-shadow:none;width:48px;height:48px;border-radius:16px}
+
+/* Hojas y avisos */
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(5,15,18,.55);display:flex;align-items:flex-end;justify-content:center}
+.panel{width:100%;max-width:520px;background:var(--bg);border-radius:24px 24px 0 0;padding:20px max(16px,env(safe-area-inset-left,0px)) calc(24px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto}
+.panel .head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.x{background:var(--surface-2);border:0;border-radius:50%;width:36px;height:36px;font-size:18px;line-height:1;cursor:pointer;color:var(--ink);flex:none}
+.toasts{position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:70;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));pointer-events:none}
+.toast{pointer-events:auto;width:100%;max-width:480px;display:flex;gap:12px;align-items:flex-start;background:var(--ink);color:var(--bg);border-radius:16px;padding:12px 14px;box-shadow:0 8px 24px rgba(0,0,0,.25);cursor:pointer}
+.toast .ic{width:22px;height:22px;margin-top:2px}
+.toast strong{display:block;font-size:14px}
+.toast p{margin:2px 0 0;font-size:14.5px}
+
+/* Barra inferior */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs-in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;padding:6px max(8px,env(safe-area-inset-right,0px)) 6px max(8px,env(safe-area-inset-left,0px))}
+.tab{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px;font:500 11.5px var(--font-body);color:var(--muted);cursor:pointer;border-radius:12px;min-width:0}
+.tab .ic{width:25px;height:25px}
+.tab[aria-current="page"]{color:var(--accent);font-weight:600}
+.fab{justify-self:center;width:58px;height:58px;border-radius:50%;border:4px solid var(--surface);background:linear-gradient(150deg,var(--hero-b),var(--hero-a));color:#fff;display:grid;place-items:center;margin-top:-28px;box-shadow:0 8px 20px rgba(13,81,89,.4);cursor:pointer;padding:0}
+.fab .ic{width:28px;height:28px;stroke-width:2.2}
+
+@media (prefers-reduced-motion: reduce){.orb-core,.switch span,.flow-progress span,.typing i{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-dasharray="52 24" stroke-linecap="round" transform="rotate(-70 16 16)"/><circle cx="16" cy="16" r="4.5" fill="currentColor"/></svg>
+      Pausa
+    </div>
+    <div class="top-r">
+      <button class="help-btn" type="button" data-x="help">Necesito ayuda</button>
+      <button class="avatar" type="button" id="avatar" data-x="go:profile" aria-label="Mi perfil">?</button>
+    </div>
+  </header>
+  <main id="screen"></main>
+</div>
+
+<nav class="tabs" aria-label="Secciones">
+  <div class="tabs-in" id="tabs"></div>
+</nav>
+
+<!-- Flujos a pantalla completa -->
+<div class="flow" id="flow" hidden role="dialog" aria-modal="true" aria-label="Actividad">
+  <div class="flow-in">
+    <div class="flow-top">
+      <button class="icon-btn" type="button" id="flowBack" data-fa="back" aria-label="Volver"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="flow-progress"><span id="flowBar"></span></div>
+      <button class="icon-btn" type="button" id="flowClose" data-fa="close" aria-label="Cerrar"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="flow-body" id="flowBody"></div>
+    <div class="flow-foot" id="flowFoot"></div>
+  </div>
+</div>
+
+<!-- Hoja inferior -->
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Detalle">
+  <div class="panel"><div id="sheetBody"></div></div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- Utilidades ---------- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>(n<10?'0':'')+n;
+const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const todayStr=()=>ymd(new Date());
+const parseYmd=s=>{const p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);};
+const addDays=(s,n)=>{const d=parseYmd(s);d.setDate(d.getDate()+n);return ymd(d);};
+const dayKey=ts=>ymd(new Date(ts));
+const fmtDay=s=>parseYmd(s).toLocaleDateString('es-AR',{day:'numeric',month:'short'}).replace('.','');
+const fmtShort=ts=>new Date(ts).toLocaleDateString('es-AR',{weekday:'short',day:'numeric',month:'short'}).replace(/\./g,'');
+const reduce=()=>!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
+const fmt1=n=>n.toLocaleString('es-AR',{maximumFractionDigits:1,minimumFractionDigits:1});
+const ytLink=q=>'https://www.youtube.com/results?search_query='+encodeURIComponent(q);
+const scrollTop0=()=>{ try{ window.scrollTo(0,0); }catch(e){} };
+
+/* ---------- Catálogos ---------- */
+const MOODS=[
+  {v:1,l:'Muy mal',c:'var(--m1)'},{v:2,l:'Mal',c:'var(--m2)'},{v:3,l:'Más o menos',c:'var(--m3)'},
+  {v:4,l:'Bien',c:'var(--m4)'},{v:5,l:'Muy bien',c:'var(--m5)'}
+];
+const HEAD={1:'Hoy fue un día muy duro.',2:'Hoy fue un día difícil.',3:'Hoy estuvo en el medio.',4:'Hoy fue un buen día.',5:'Hoy fue un muy buen día.'};
+const SYMPTOMS=[
+  {id:'ansiedad',label:'Ansiedad'},{id:'estres',label:'Estrés'},{id:'tristeza',label:'Tristeza'},
+  {id:'cansancio',label:'Cansancio o poca energía'},{id:'sueno',label:'Dormí mal'},{id:'irritabilidad',label:'Irritabilidad'},
+  {id:'concentracion',label:'Me costó concentrarme'},{id:'abrumo',label:'Me sentí desbordado/a'},
+  {id:'rumiacion',label:'Pensamientos que dan vueltas'},{id:'soledad',label:'Soledad'}
+];
+const CARE={id:'dano',label:'Pensé en hacerme daño o en que sería mejor no estar'};
+const EMO=[
+  {id:'q1',label:'Con energía · agradable',tint:'var(--q1)',items:['Entusiasmado/a','Motivado/a','Orgulloso/a','Alegre']},
+  {id:'q2',label:'Con energía · difícil',tint:'var(--q2)',items:['Ansioso/a','Estresado/a','Enojado/a','Frustrado/a','Nervioso/a']},
+  {id:'q3',label:'Con calma · agradable',tint:'var(--q3)',items:['Tranquilo/a','En paz','Agradecido/a','Relajado/a']},
+  {id:'q4',label:'Con calma · difícil',tint:'var(--q4)',items:['Triste','Cansado/a','Solo/a','Desmotivado/a','Aburrido/a']}
+];
+const HABITS=[
+  {id:'ejercicio',label:'Hice ejercicio'},{id:'amigos',label:'Vi a amigos'},{id:'familia',label:'Pasé tiempo con familia'},
+  {id:'aire',label:'Salí al aire libre'},{id:'estudio',label:'Estudié'},{id:'trabajo',label:'Trabajé'},
+  {id:'comida',label:'Comí bien'},{id:'descanso',label:'Descansé'},{id:'pantallas',label:'Muchas pantallas'}
+];
+const GOALS=[
+  {id:'estres',label:'Bajar el estrés'},{id:'ansiedad',label:'Calmar la ansiedad'},{id:'sueno',label:'Dormir mejor'},
+  {id:'animo',label:'Mejorar mi ánimo'},{id:'examen',label:'Prepararme para un examen'},
+  {id:'entender',label:'Entenderme mejor'},{id:'soledad',label:'Sentirme menos solo/a'}
+];
+const GOAL_SYM={estres:['estres'],ansiedad:['ansiedad'],sueno:['sueno'],animo:['tristeza'],examen:['ansiedad','concentracion'],entender:['estres','rumiacion'],soledad:['soledad']};
+const STAGES=['Semilla','Brote','Tallo','Capullo','Flor'];
+
+/* ---------- Contenido educativo ---------- */
+var INFO={
+ansiedad:{
+  what:'La ansiedad es la respuesta de alarma del cuerpo ante algo que percibe como amenaza o desafío, real o anticipado. El sistema nervioso simpático libera adrenalina y cortisol para prepararte para actuar. En dosis moderadas es útil: te mantiene alerta antes de un examen. Se vuelve un problema cuando es muy intensa, dura mucho o aparece sin un motivo claro.',
+  body:['Latidos más rápidos y respiración corta','Tensión en cuello, hombros o mandíbula','Nudo en el estómago, manos frías o sudor','Una mente que se adelanta a lo que podría salir mal'],
+  tryit:['Inhalá por la nariz contando 4 segundos.','Exhalá lento por la boca contando 6. La exhalación larga activa el sistema parasimpático, que baja la alarma.','Repetí durante 1 minuto y fijate si el cuerpo se afloja un poco.'],
+  breath:true,
+  videos:[['Qué es la ansiedad y cómo funciona','qué es la ansiedad explicación psicología'],['Respiración diafragmática guiada','respiración diafragmática ansiedad ejercicio guiado']],
+  when:'Si la ansiedad te limita en el día a día por más de unas semanas, o tenés ataques de pánico, consultá con un/a psicólogo/a o psiquiatra. La terapia cognitivo-conductual tiene buena evidencia.'
+},
+estres:{
+  what:'El estrés es la reacción del cuerpo cuando las demandas parecen superar los recursos que sentís tener. Activa el eje del estrés y libera cortisol. A corto plazo mejora el foco. Sostenido en el tiempo agota la energía, altera el sueño y baja la concentración.',
+  body:['Tensión muscular o dolor de cabeza','Cansancio aunque hayas dormido','Menos paciencia que de costumbre','Dificultad para desconectar'],
+  tryit:['Escribí todo lo pendiente en una lista, sin ordenarlo.','Elegí las 3 cosas que sí o sí tienen que pasar hoy.','Trabajá 25 minutos en la primera y descansá 5 sin pantallas (técnica Pomodoro).'],
+  breath:true,
+  videos:[['Qué es el estrés y cómo afecta al cuerpo','qué es el estrés psicología cortisol'],['Técnica Pomodoro para estudiar','técnica pomodoro para estudiar']],
+  when:'Si el estrés se mantiene por semanas y afecta tu salud, tus vínculos o tu rendimiento, vale la pena consultar a un profesional.'
+},
+tristeza:{
+  what:'La tristeza es una emoción normal que aparece ante pérdidas, frustraciones o desgaste, y suele pasar con el tiempo y con apoyo. No es lo mismo que una depresión, que implica ánimo bajo o pérdida de interés casi todos los días durante al menos dos semanas, junto con otros síntomas como cambios en el sueño o el apetito.',
+  body:['Ganas de aislarte o de hacer menos cosas','Llanto fácil o sensación de vacío','Menos disfrute de lo que normalmente te gusta','Cuerpo pesado y lento'],
+  tryit:['Elegí una actividad muy pequeña: salir 10 minutos, bañarte, escribirle a alguien.','Hacela aunque no tengas ganas. En psicología se llama activación conductual: muchas veces la motivación llega después de empezar, no antes.','Anotá cómo te sentiste al terminar.'],
+  videos:[['Diferencia entre tristeza y depresión','diferencia entre tristeza y depresión psicología'],['Activación conductual explicada','activación conductual qué es']],
+  when:'Si la tristeza dura más de dos semanas, te cuesta funcionar o aparecen ideas de hacerte daño, consultá pronto con un profesional de salud mental.'
+},
+cansancio:{
+  what:'La fatiga puede venir de dormir poco, de estrés sostenido, de moverte o comer poco, o de una carga mental alta. El cerebro gasta mucha energía cuando está en alerta constante, y eso se siente como cansancio aunque no hayas hecho esfuerzo físico.',
+  body:['Cuerpo pesado, bostezos, ganas de tirarte','Menos motivación','Más errores y olvidos','Más irritabilidad'],
+  tryit:['Salí a la luz natural unos minutos. Ayuda a regular el reloj biológico.','Tomá agua y comé algo si pasaron muchas horas.','Caminá 10 minutos antes de seguir. El movimiento suave suele subir la energía.'],
+  videos:[['Por qué estoy siempre cansado','por qué estoy siempre cansado causas psicología'],['Higiene del sueño','higiene del sueño consejos']],
+  when:'Si el cansancio dura varias semanas, pedí un chequeo médico para descartar causas físicas (por ejemplo anemia o problemas de tiroides) y consultá también por tu estado de ánimo.'
+},
+sueno:{
+  what:'Cuando la mente sigue en modo alerta, al cuerpo le cuesta pasar al sueño. Las preocupaciones, las pantallas y los horarios irregulares empujan en esa dirección. Y dormir poco aumenta la ansiedad del día siguiente, así que se arma un círculo.',
+  body:['Tardar mucho en dormirte','Despertarte de madrugada con la cabeza activa','Levantarte sin sentirte descansado/a'],
+  tryit:['Guardá el celular y bajá las luces entre 30 y 60 minutos antes de acostarte.','Mantené un horario parecido todos los días, también los fines de semana.','Si pasaron unos 20 minutos y no dormís, levantate y hacé algo tranquilo con poca luz. Volvé cuando tengas sueño.'],
+  breath:true,
+  videos:[['Cómo dormir mejor: higiene del sueño','higiene del sueño cómo dormir mejor psicología'],['Relajación muscular progresiva','relajación muscular progresiva guiada']],
+  when:'Si el insomnio se repite varias noches por semana durante más de un mes, consultá. La terapia cognitivo-conductual para el insomnio es el tratamiento de primera línea.'
+},
+irritabilidad:{
+  what:'La irritabilidad es un umbral más bajo para enojarte o molestarte. Aparece mucho con falta de sueño, hambre, estrés o sobrecarga. A veces es la forma en que se expresa la ansiedad o la tristeza.',
+  body:['Respuestas más cortantes de lo normal','Calor o tensión en el cuerpo','Todo molesta un poco más'],
+  tryit:['Antes de responder, hacé una pausa de unos minutos y tomá agua.','Ponele nombre a lo que sentís: «estoy enojado/a», «estoy sobrepasado/a». Nombrar la emoción reduce su intensidad.','Preguntate si dormiste y comiste bien hoy.'],
+  videos:[['Cómo manejar la irritabilidad y el enojo','cómo manejar el enojo y la irritabilidad psicología']],
+  when:'Si la irritabilidad es frecuente y daña tus relaciones, o sentís que perdés el control, conviene consultar.'
+},
+concentracion:{
+  what:'Tu memoria de trabajo tiene un espacio limitado. Cuando hay preocupaciones, cansancio o ansiedad, ocupan parte de ese espacio y queda menos para estudiar. No significa que no puedas: significa que la cabeza está ocupada.',
+  body:['Releer sin retener','Saltar de una tarea a otra','Distraerte con el celular'],
+  tryit:['Antes de estudiar, escribí 5 minutos lo que te preocupa. Hay estudios donde esto mejoró el rendimiento en exámenes.','Dejá el celular en otro ambiente.','Trabajá en bloques de 25 minutos con una sola tarea.'],
+  videos:[['Cómo mejorar la concentración al estudiar','cómo mejorar la concentración al estudiar técnicas']],
+  when:'Si te cuesta concentrarte desde hace meses, consultá. Se pueden evaluar causas como ansiedad, falta de sueño o TDAH.'
+},
+abrumo:{
+  what:'Sentirte desbordado/a suele pasar cuando la lista de cosas se ve como un bloque enorme. El cerebro lo interpreta como amenaza y tiende a paralizarse o a evitar. Dividir lo grande en pasos concretos baja esa sensación.',
+  body:['Querer hacer todo y no empezar nada','Cabeza llena y pecho apretado','Ganas de huir o de dormir'],
+  tryit:['Nombrá 5 cosas que ves, 4 que podés tocar, 3 que escuchás, 2 que olés y 1 que saboreás. Ayuda a volver al presente.','Elegí la tarea más chica posible y hacé solo los primeros 5 minutos.','Después decidí si seguís.'],
+  videos:[['Técnica 5-4-3-2-1 para calmarte','técnica 5-4-3-2-1 grounding ansiedad']],
+  when:'Si te sentís así casi todos los días, hablalo con un profesional.'
+},
+rumiacion:{
+  what:'La rumiación es darle vueltas una y otra vez al mismo pensamiento sin llegar a una solución. Se siente como pensar, pero suele aumentar la ansiedad y la tristeza en vez de resolverlas. Es muy común antes de situaciones de evaluación.',
+  body:['Repasar la misma escena o el mismo error','Anticipar escenarios negativos','Dificultad para dormir'],
+  tryit:['Notalo y nombralo: «estoy rumiando».','Dale un horario: 15 minutos para escribir la preocupación y qué podrías hacer al respecto. Fuera de ese horario, volvé a una tarea concreta.','Si hoy no hay nada para hacer, anotá «mañana lo veo» y pasá a otra cosa.'],
+  breath:true,
+  videos:[['Qué es la rumiación y cómo frenarla','rumiación mental qué es cómo parar los pensamientos repetitivos']],
+  when:'Si los pensamientos repetitivos ocupan buena parte del día durante semanas, consultá con un/a psicólogo/a.'
+},
+soledad:{
+  what:'La soledad es la distancia entre el contacto social que tenés y el que necesitás. Es una señal del cuerpo, parecida al hambre, que te empuja a buscar vínculos. No es una falla personal y es más común de lo que se habla.',
+  body:['Sensación de no encajar o de que nadie entiende','Ganas de aislarte aunque quieras compañía','Ánimo más bajo'],
+  tryit:['Mandale un mensaje corto a una persona. Una pregunta o un meme alcanza.','Elegí una actividad compartida de poco esfuerzo: estudiar acompañado/a, caminar con alguien, un café.','Si no hay a quién, un grupo o taller de algo que te guste suma contacto sin exigir intimidad.'],
+  videos:[['Cómo afrontar la soledad','cómo afrontar la soledad psicología']],
+  when:'Si la soledad viene con tristeza profunda, o hace tiempo que no podés conectar con nadie, consultá a un profesional.'
+},
+calma:{
+  what:'Registrar los momentos de calma importa. El cerebro tiende a fijarse más en lo negativo, y anotar lo que sale bien ayuda a equilibrar. Saber qué te ayudó a estar tranquilo/a te da herramientas para repetirlo.',
+  body:['Respiración pausada','Músculos sueltos','Atención más disponible'],
+  tryit:['Preguntate qué hiciste hoy que ayudó: dormir, moverte, hablar con alguien.','Anotalo en la nota de tu registro.','Repetí una de esas cosas mañana.'],
+  videos:[['Mindfulness para principiantes','mindfulness para principiantes meditación guiada']]
+},
+alegria:{
+  what:'Las emociones agradables amplían la atención y la creatividad, y ayudan a recuperarte del estrés. Registrarlas también cuenta: es información sobre qué te hace bien.',
+  body:['Energía disponible','Ganas de hacer y de compartir'],
+  tryit:['Anotá qué pasó justo antes de sentirte así.','Contale a alguien. Compartir las buenas noticias refuerza el efecto.','Pensá si podés repetir esa situación esta semana.'],
+  videos:[['Práctica de gratitud','ejercicio de gratitud psicología positiva']]
+}
+};
+
+var REPORTS=[
+  {id:'estres-que-es',tag:'Estrés',c:'var(--m2)',title:'Qué es el estrés',teaser:'Una reacción normal del cuerpo que, si se sostiene, pasa factura.',rel:['estres','abrumo'],
+   sections:[{h:'En pocas palabras',p:INFO.estres.what},{h:'Cómo se siente',ul:INFO.estres.body}],videos:INFO.estres.videos,when:INFO.estres.when},
+  {id:'estres-bajar',tag:'Estrés',c:'var(--m2)',title:'Cómo bajar el estrés',teaser:'Cinco cosas concretas que podés hacer hoy.',rel:['estres','abrumo'],breath:true,
+   sections:[
+     {h:'Cinco cosas con buena evidencia',ol:[
+       'Ordená lo pendiente: escribí todo, elegí 3 prioridades y empezá por una sola.',
+       'Respiración lenta: inhalá 4 segundos y exhalá 6 durante un minuto. Baja la activación del cuerpo.',
+       'Movete: una caminata de 10 a 20 minutos alivia la tensión. El ejercicio regular se asocia con menos estrés y ansiedad.',
+       'Cuidá el sueño: dormir poco hace que todo pese más.',
+       'Poné pausas reales: 5 minutos sin pantallas cada 25 a 50 de trabajo.']},
+     {h:'Lo que suele empeorarlo',ul:['Usar el celular como descanso, porque sigue pidiendo atención','Postergar y juntar todo para último momento','Mucha cafeína a la tarde','Aislarte en vez de contar cómo estás']}],
+   videos:INFO.estres.videos,when:INFO.estres.when},
+  {id:'estres-cuando',tag:'Estrés',c:'var(--m2)',title:'En qué momentos aparece el estrés',teaser:'Reconocerlo a tiempo cambia mucho.',rel:['estres'],
+   sections:[
+     {h:'Situaciones típicas',ul:['Semanas de exámenes, entregas o fechas límite','Mucho por hacer y poco control sobre cómo hacerlo','Después de dormir mal varios días','La incertidumbre: no saber qué va a pasar','Conflictos con personas importantes','Compararte con otros, sobre todo en redes']},
+     {h:'Señales tempranas',p:'Suelen aparecer antes de que digas «estoy estresado/a»: tensión en cuello y mandíbula, más irritabilidad, dormir peor, olvidos y ganas de postergar. Notarlas a tiempo permite hacer una pausa antes de que se acumule.'},
+     {h:'De corto y de largo plazo',p:'El estrés puntual, como el de antes de un examen, puede ayudarte a rendir. El que no se corta durante semanas desgasta. Lo importante es poder recuperarte entre una exigencia y la siguiente.'}],
+   videos:[['Estrés agudo y crónico: diferencias','estrés agudo y crónico diferencias psicología']],when:INFO.estres.when},
+  {id:'ansiedad',tag:'Ansiedad',c:'var(--accent)',title:'Qué es la ansiedad',teaser:'La alarma del cuerpo: cuándo ayuda y cuándo se pasa de rosca.',rel:['ansiedad'],breath:true,
+   sections:[{h:'En pocas palabras',p:INFO.ansiedad.what},{h:'Cómo se siente',ul:INFO.ansiedad.body},{h:'Probá esto',ol:INFO.ansiedad.tryit}],videos:INFO.ansiedad.videos,when:INFO.ansiedad.when},
+  {id:'ansiedad-examen',tag:'Ansiedad',c:'var(--accent)',title:'Ansiedad antes de rendir',teaser:'Por qué se te nubla la cabeza y cómo prepararte.',rel:['ansiedad','concentracion','rumiacion'],breath:true,
+   sections:[
+     {h:'Qué pasa',p:'Ante una evaluación el cuerpo se activa. Un nivel moderado ayuda a rendir. Cuando sube demasiado, las preocupaciones ocupan la memoria de trabajo y cuesta recordar lo que sí sabés.'},
+     {h:'Qué ayuda',ol:[
+       'Practicá recordando sin mirar los apuntes y con tiempo, como en el examen. Rinde más que releer.',
+       'Antes de empezar, escribí unos minutos lo que te preocupa. Hay estudios donde esto mejoró el rendimiento.',
+       'Dormí lo que puedas la noche anterior y comé algo liviano.',
+       'Antes de entrar, respirá 4-6 durante un minuto.',
+       'Si notás los nervios, podés decirte «mi cuerpo se está activando para rendir». Ver la activación como una ayuda puede mejorar el desempeño.']}],
+   videos:[['Cómo manejar los nervios antes de un examen','cómo controlar los nervios antes de un examen psicología'],['Técnicas de estudio con práctica de recuperación','práctica de recuperación técnica de estudio']],
+   when:'Si la ansiedad ante los exámenes te hace evitarlos o te bloquea siempre, consultá con un/a psicólogo/a.'},
+  {id:'sueno',tag:'Sueño',c:'var(--m4)',title:'Dormir mejor cuando la cabeza no para',teaser:'Hábitos simples para que el cuerpo baje el ritmo.',rel:['sueno','cansancio'],breath:true,
+   sections:[{h:'Por qué cuesta',p:INFO.sueno.what},{h:'Cómo se nota',ul:INFO.sueno.body},{h:'Probá esto',ol:INFO.sueno.tryit}],videos:INFO.sueno.videos,when:INFO.sueno.when},
+  {id:'rumiacion',tag:'Mente',c:'var(--m5)',title:'Cuando los pensamientos dan vueltas',teaser:'Pensar mucho no es lo mismo que resolver.',rel:['rumiacion','abrumo'],breath:true,
+   sections:[{h:'Qué es',p:INFO.rumiacion.what},{h:'Cómo se nota',ul:INFO.rumiacion.body},{h:'Probá esto',ol:INFO.rumiacion.tryit}],videos:INFO.rumiacion.videos,when:INFO.rumiacion.when},
+  {id:'mindfulness',tag:'Meditación',c:'var(--m5)',title:'Meditar sin complicarse',teaser:'Cinco minutos de atención a la respiración.',rel:['ansiedad','estres','rumiacion'],breath:true,
+   sections:[
+     {h:'Qué es',p:'La meditación de atención plena (mindfulness) consiste en llevar la atención a algo simple, como la respiración, y volver a ella cada vez que te distraés. No se trata de dejar la mente en blanco.'},
+     {h:'Cómo empezar',ol:['Sentate cómodo/a y poné un temporizador de 5 minutos.','Llevá la atención a la respiración, sin cambiarla.','Cuando aparezcan pensamientos, notalos y volvé a la respiración. Distraerte y volver es la práctica.','Terminá moviendo un poco el cuerpo y notando cómo estás.']},
+     {h:'Qué esperar',p:'Los estudios muestran efectos pequeños a moderados sobre el estrés y la ansiedad, y suelen aparecer con práctica regular, no de un día para el otro.'}],
+   videos:[['Mindfulness para principiantes','mindfulness para principiantes meditación guiada']]},
+  {id:'animo',tag:'Ánimo',c:'var(--m1)',title:'Cuando el ánimo está bajo',teaser:'Tristeza normal y depresión: en qué se diferencian.',rel:['tristeza','soledad'],
+   sections:[{h:'Qué es',p:INFO.tristeza.what},{h:'Cómo se siente',ul:INFO.tristeza.body},{h:'Probá esto',ol:INFO.tristeza.tryit}],videos:INFO.tristeza.videos,when:INFO.tristeza.when}
+];
+var TIPS=[
+  'Tomá un vaso de agua antes de abrir el celular a la mañana.',
+  'Si estudiás, cada 25 minutos pará 5. El cerebro retiene mejor con pausas.',
+  'Una caminata de 10 minutos cuenta como pausa y como ejercicio.',
+  'Dormir a horarios parecidos ayuda más que «recuperar» el fin de semana.',
+  'Ponerle nombre a lo que sentís («estoy ansioso/a») baja un poco su intensidad.',
+  'Escribir lo que te preocupa antes de dormir saca peso de la cabeza.',
+  'No hace falta tener ganas para empezar. Cinco minutos suelen alcanzar.',
+  'Mandarle un mensaje a alguien también es cuidarte.',
+  'La luz natural de la mañana ayuda a regular el sueño de la noche.',
+  'Un mal día no define tu semana. Mirá el gráfico completo.'
+];
+var MYTHS=[
+  {q:'«Si tengo ansiedad es porque soy débil»',a:'Falso. La ansiedad es una respuesta del sistema nervioso y es una de las consultas más comunes en salud mental. No tiene que ver con la fuerza de voluntad.'},
+  {q:'«Evitar lo que me da miedo hace que se me pase»',a:'Falso. Evitar alivia en el momento, pero mantiene el miedo. Acercarte de a poco y con apoyo es parte de los tratamientos con mejor evidencia.'},
+  {q:'«Meditar es dejar la mente en blanco»',a:'Falso. Meditar es notar que te distraíste y volver a la atención que elegiste, una y otra vez.'},
+  {q:'«Estar triste es lo mismo que tener depresión»',a:'Falso. La tristeza es una emoción normal. La depresión implica ánimo bajo o pérdida de interés casi todos los días durante al menos dos semanas, con otros síntomas.'},
+  {q:'«Una mala noche de sueño arruina el examen»',a:'Exagerado. Una mala noche baja un poco la atención, pero no borra lo que estudiaste. Creer que sí suele aumentar la ansiedad.'},
+  {q:'«Hablar de lo que me pasa lo empeora»',a:'En general, no. Poner en palabras lo que sentís y compartirlo suele aliviar. Si te desborda, un profesional puede acompañarte.'}
+];
+
+
+const TIPS_FALLBACK=[];
+
+/* ---------- Estado ---------- */
+const KEY='pausa-v2';
+const S={name:'',goals:[],event:null,onboarded:false,entries:[],activity:[],journal:[],reminders:[],requests:[],badges:[]};
+function load(){ try{ const r=localStorage.getItem(KEY); if(r) Object.assign(S,JSON.parse(r)); }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+
+/* ---------- Datos de ejemplo (solo hasta el primer uso) ---------- */
+function rng(seed){ let s=seed; return ()=>{ s=(s*1664525+1013904223)%4294967296; return s/4294967296; }; }
+function makeDemo(){
+  const r=rng(11), now=new Date(), entries=[], activity=[];
+  for(let off=27;off>=1;off--){
+    if(off>4 && r()<.2) continue;
+    const h=[], pick=(id,p)=>{ if(r()<p) h.push(id); };
+    pick('ejercicio',.4); pick('amigos',.35); pick('aire',.4); pick('estudio',.6); pick('comida',.6); pick('pantallas',.45); pick('descanso',.3); pick('familia',.3);
+    const sleep=Math.round((5+r()*3.6)*2)/2;
+    let m=3.1+(h.includes('ejercicio')?.8:0)+(h.includes('amigos')?.6:0)+(h.includes('aire')?.3:0)-(h.includes('pantallas')?.6:0)+(sleep>=7?.7:-.5)+(r()-.5)*1.1;
+    m=Math.max(1,Math.min(5,Math.round(m)));
+    const sy=[]; if(m<=2) sy.push(r()<.6?'ansiedad':'tristeza'); if(sleep<6) sy.push('sueno'); if(h.includes('estudio')&&r()<.4) sy.push('estres');
+    const emo=m>=4?['Tranquilo/a','Alegre']:(m===3?['Cansado/a']:['Ansioso/a','Estresado/a']);
+    const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-off,20,0).getTime();
+    entries.push({id:'d'+off,ts:d,mood:m,emotions:emo.slice(0,1+Math.floor(r()*2)),symptoms:sy.filter((x,i)=>sy.indexOf(x)===i),care:false,habits:h,sleep,note:'',sample:true});
+    activity.push({ts:d,type:'check',xp:20,sample:true});
+    if(r()<.4) activity.push({ts:d+60000,type:'breath',xp:10,sample:true});
+    if(r()<.22) activity.push({ts:d+120000,type:'meditate',xp:15,sample:true});
+    if(r()<.18) activity.push({ts:d+180000,type:'cbt',xp:15,sample:true});
+  }
+  return {entries,activity};
+}
+let DEMO={entries:[],activity:[]};
+const demoOn=()=>!S.entries.length&&!S.activity.length;
+const E=()=>demoOn()?DEMO.entries:S.entries;
+const A=()=>demoOn()?DEMO.activity:S.activity;
+
+/* ---------- Estadísticas, niveles y logros ---------- */
+function bestStreak(days){
+  let best=0,cur=0,prev=null;
+  Object.keys(days).sort().forEach(k=>{ cur=(prev&&addDays(prev,1)===k)?cur+1:1; if(cur>best) best=cur; prev=k; });
+  return best;
+}
+function statsOf(act){
+  const t=todayStr(), days={};
+  act.forEach(a=>{ if(a.type!=='bonus') days[dayKey(a.ts)]=1; });
+  let streak=0, d=days[t]?t:addDays(t,-1);
+  while(days[d]){ streak++; d=addDays(d,-1); }
+  const xp=act.reduce((s,a)=>s+(a.xp||0),0), level=1+Math.floor(xp/120);
+  const ta=act.filter(a=>dayKey(a.ts)===t);
+  return {streak,best:bestStreak(days),xp,level,stage:Math.min(5,level),into:xp%120,days,
+    q:{check:ta.some(a=>a.type==='check'),calm:ta.some(a=>a.type==='breath'||a.type==='meditate'),cbt:ta.some(a=>a.type==='cbt')}};
+}
+const stats=()=>statsOf(A());
+const BADGES=[
+  {id:'first',l:'Primer registro',ic:'check',ok:c=>c.entries>=1},
+  {id:'s3',l:'3 días seguidos',ic:'flame',ok:c=>c.best>=3},
+  {id:'s7',l:'Una semana seguida',ic:'flame',ok:c=>c.best>=7},
+  {id:'calm10',l:'10 pausas de calma',ic:'wind',ok:c=>c.calm>=10},
+  {id:'cbt1',l:'Primer ejercicio',ic:'note',ok:c=>c.cbt>=1},
+  {id:'cbt5',l:'5 ejercicios',ic:'note',ok:c=>c.cbt>=5},
+  {id:'lvl3',l:'Nivel 3',ic:'star',ok:c=>c.level>=3},
+  {id:'help',l:'Diste un paso hacia la ayuda',ic:'heart',ok:c=>c.req>=1}
+];
+function badgeCtx(entries,act){
+  const st=statsOf(act);
+  return {entries:entries.length,best:st.best,level:st.level,
+    calm:act.filter(a=>a.type==='breath'||a.type==='meditate').length,cbt:act.filter(a=>a.type==='cbt').length,req:S.requests.length};
+}
+function award(type,xp,meta){
+  const before=statsOf(S.activity);
+  S.activity.push({ts:Date.now(),type,xp,meta:meta||null});
+  const msgs=[], t=todayStr(), mid=statsOf(S.activity);
+  if(mid.q.check&&mid.q.calm&&mid.q.cbt&&!S.activity.some(a=>a.type==='bonus'&&dayKey(a.ts)===t)){
+    S.activity.push({ts:Date.now(),type:'bonus',xp:20}); msgs.push('Misiones completas: +20 XP');
+  }
+  const after=statsOf(S.activity);
+  if(after.level>before.level) msgs.push('Brote subió al nivel '+after.level);
+  const c=badgeCtx(S.entries,S.activity), ids=BADGES.filter(b=>b.ok(c)).map(b=>b.id), seen=S.badges||[];
+  ids.forEach(id=>{ if(seen.indexOf(id)<0) msgs.push('Logro: '+BADGES.filter(b=>b.id===id)[0].l); });
+  S.badges=ids; save();
+  return msgs;
+}
+
+/* ---------- Íconos y dibujos ---------- */
+const IC={
+  home:'<path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1v-9Z"/>',
+  leaf:'<path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14Z"/><path d="M5 19c3-4 6-7 9-9"/>',
+  bars:'<path d="M5 19v-6M11 19V6M17 19v-9"/>',
+  heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  wind:'<path d="M3 9h11a3 3 0 1 0-3-3"/><path d="M3 15h15a3 3 0 1 1-3 3"/><path d="M3 12h7"/>',
+  lotus:'<path d="M12 5c2 2 3 4 3 6.5S14 16 12 18c-2-2-3-4.5-3-6.5S10 7 12 5Z"/><path d="M4 11c3 0 5 1.7 6 4.5M20 11c-3 0-5 1.7-6 4.5"/><path d="M5 20h14"/>',
+  moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/>',
+  note:'<path d="M6 3h9l4 4v14H6V3Z"/><path d="M15 3v4h4M9 12h6M9 16h6"/>',
+  chat:'<path d="M4 5h16v11H9l-5 4V5Z"/>',
+  sound:'<path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/>',
+  book:'<path d="M4 5h6a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4V5ZM20 5h-6a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h6V5Z"/>',
+  bell:'<path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15L6 16Z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  play:'<path d="M8 5l11 7-11 7V5Z"/>',
+  pause:'<path d="M8 5v14M16 5v14"/>',
+  flame:'<path d="M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9Z"/>',
+  star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/>',
+  send:'<path d="M4 12l16-8-6 16-3-7-7-1Z"/>',
+  chev:'<path d="M9 5l7 7-7 7"/>',
+  video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>',
+  stop:'<rect x="6" y="6" width="12" height="12" rx="2"/>'
+};
+const icon=(n,cls)=>`<svg class="ic${cls?' '+cls:''}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]||''}</svg>`;
+const MOUTH={1:'M8 17.5Q12 12.5 16 17.5',2:'M8.5 16.5Q12 14 15.5 16.5',3:'M9 15.5H15',4:'M8.5 14.5Q12 17.5 15.5 14.5',5:'M7.5 13.5Q12 19.5 16.5 13.5'};
+function face(v,size){
+  const m=MOODS[v-1];
+  return `<svg class="face" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="${m.c}"/><circle cx="8.6" cy="10" r="1.2" fill="#14323A"/><circle cx="15.4" cy="10" r="1.2" fill="#14323A"/><path d="${MOUTH[v]}" fill="none" stroke="#14323A" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+}
+/* Brote: compañero original que crece con tu práctica (5 etapas) */
+function broteSvg(stage,sleepy,joy){
+  const leaf=(x,y,r,s)=>`<path transform="translate(${x} ${y}) rotate(${r}) scale(${s})" d="M0 0C-9 -5 -11 -18 0 -24C11 -18 9 -5 0 0Z" fill="var(--leaf)"/>`;
+  const stem=h=>`<path d="M60 46V${46-h}" stroke="var(--leaf-d)" stroke-width="3.5" stroke-linecap="round" fill="none"/>`;
+  let top='';
+  if(stage<=1) top=leaf(60,46,-30,.85)+leaf(60,46,30,.85);
+  else if(stage===2) top=stem(14)+leaf(60,34,-38,1)+leaf(60,34,38,1);
+  else if(stage===3) top=stem(24)+leaf(60,36,-42,1)+leaf(60,36,42,1)+leaf(60,22,0,1.05);
+  else if(stage===4) top=stem(24)+leaf(60,36,-42,1)+leaf(60,36,42,1)+'<circle cx="60" cy="19" r="7.5" fill="var(--bloom)"/><path d="M56 16q4-4 8 0" stroke="#fff" stroke-opacity=".55" stroke-width="2" fill="none" stroke-linecap="round"/>';
+  else { let p=''; for(let i=0;i<6;i++) p+=`<ellipse cx="60" cy="10" rx="5.2" ry="8" fill="var(--bloom)" transform="rotate(${i*60} 60 19)"/>`; top=stem(24)+leaf(60,36,-42,1)+leaf(60,36,42,1)+p+'<circle cx="60" cy="19" r="5" fill="var(--sun)"/>'; }
+  const eyes=sleepy
+    ?'<path d="M45 70q4 4 8 0M67 70q4 4 8 0" stroke="var(--face)" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
+    :'<circle cx="50" cy="69" r="3.6" fill="var(--face)"/><circle cx="70" cy="69" r="3.6" fill="var(--face)"/><circle cx="51.3" cy="67.7" r="1.1" fill="#fff"/><circle cx="71.3" cy="67.7" r="1.1" fill="#fff"/>';
+  const mouth=joy?'<path d="M52 79q8 10 16 0Z" fill="var(--face)"/>':'<path d="M53 79q7 6 14 0" stroke="var(--face)" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+  return `<svg viewBox="0 0 120 120" role="img" aria-label="Brote, tu compañero"><ellipse cx="60" cy="108" rx="30" ry="5" fill="#000" opacity=".14"/>${top}<ellipse cx="60" cy="74" rx="36" ry="33" fill="var(--brote)"/><ellipse cx="50" cy="60" rx="16" ry="9" fill="#fff" opacity=".24" transform="rotate(-20 50 60)"/>${eyes}<ellipse cx="42" cy="78" rx="5" ry="3.2" fill="var(--bloom)" opacity=".55"/><ellipse cx="78" cy="78" rx="5" ry="3.2" fill="var(--bloom)" opacity=".55"/>${mouth}${sleepy?'<text x="90" y="46" font-size="14" fill="var(--leaf-d)" font-family="var(--font-display)" font-weight="700">z</text>':''}</svg>`;
+}
+
+/* ---------- Acciones: todo lo que se puede abrir desde cualquier lugar ---------- */
+const ACT={
+  breath46:{kind:'Respiración',ic:'wind',c:'var(--c-breath)',title:'Respiración 4-6',sub:'Calmá el cuerpo en 1 a 5 minutos',run:()=>openBreath('46')},
+  breathbox:{kind:'Respiración',ic:'wind',c:'var(--c-breath)',title:'Respiración en caja',sub:'Para enfocarte antes de estudiar',run:()=>openBreath('box')},
+  breath478:{kind:'Respiración',ic:'wind',c:'var(--c-breath)',title:'Respiración 4-7-8',sub:'Para ir a dormir',run:()=>openBreath('478')},
+  'med-breath':{kind:'Meditación',ic:'lotus',c:'var(--c-med)',title:'Atención a la respiración',sub:'5 min · guiada',run:()=>openMed('breath')},
+  'med-body':{kind:'Meditación',ic:'lotus',c:'var(--c-med)',title:'Escaneo corporal',sub:'8 min · guiada',run:()=>openMed('body')},
+  'med-exam':{kind:'Meditación',ic:'lotus',c:'var(--c-med)',title:'Antes de rendir',sub:'3 min · guiada',run:()=>openMed('exam')},
+  'med-thoughts':{kind:'Meditación',ic:'lotus',c:'var(--c-med)',title:'Soltar pensamientos',sub:'5 min · guiada',run:()=>openMed('thoughts')},
+  'med-grat':{kind:'Meditación',ic:'lotus',c:'var(--c-med)',title:'Gratitud',sub:'3 min · guiada',run:()=>openMed('grat')},
+  'med-sleep':{kind:'Dormir',ic:'moon',c:'var(--c-sleep)',title:'Escaneo para dormir',sub:'10 min · guiada',run:()=>openMed('sleep')},
+  'med-prm':{kind:'Dormir',ic:'moon',c:'var(--c-sleep)',title:'Relajación muscular',sub:'8 min · guiada',run:()=>openMed('prm')},
+  'cbt-thought':{kind:'Ejercicio TCC',ic:'note',c:'var(--c-cbt)',title:'Registro de pensamientos',sub:'Cuestioná un pensamiento difícil · 5 min',run:()=>openCbt('thought')},
+  'cbt-worry':{kind:'Ejercicio TCC',ic:'note',c:'var(--c-cbt)',title:'Descarga de preocupaciones',sub:'Sacá lo que te da vueltas · 5 min',run:()=>openCbt('worry')},
+  'cbt-act':{kind:'Ejercicio TCC',ic:'note',c:'var(--c-cbt)',title:'Activación conductual',sub:'Planeá una actividad chica · 3 min',run:()=>openCbt('act')},
+  'cbt-ground':{kind:'Ejercicio TCC',ic:'note',c:'var(--c-cbt)',title:'Técnica 5-4-3-2-1',sub:'Volvé al presente · 2 min',run:()=>openCbt('ground')},
+  'cbt-grat':{kind:'Ejercicio TCC',ic:'note',c:'var(--c-cbt)',title:'Tres cosas buenas',sub:'Gratitud · 2 min',run:()=>openCbt('grat')},
+  chat:{kind:'Compañero',ic:'chat',c:'var(--c-chat)',title:'Hablar con Brote',sub:'Una guía para elegir qué hacer',run:()=>openChat()},
+  pros:{kind:'Profesionales',ic:'heart',c:'var(--c-learn)',title:'Hablar con un profesional',sub:'Pedí un turno',run:()=>X.go('pros')}
+};
+REPORTS.forEach(r=>{ ACT['rep:'+r.id]={kind:'Informe',ic:'book',c:r.c,title:r.title,sub:r.teaser,run:()=>openReport(r.id)}; });
+const runAction=id=>{ if(ACT[id]) ACT[id].run(); };
+const actionCard=id=>{ const a=ACT[id]; if(!a) return ''; return `<button class="act" type="button" data-x="act:${esc(id)}"><span class="act-ic" style="--c:${a.c}">${icon(a.ic)}</span><span class="act-k" style="--c:${a.c}">${esc(a.kind)}</span><span class="act-t">${esc(a.title)}</span><span class="act-s">${esc(a.sub)}</span></button>`; };
+const actionRow=id=>{ const a=ACT[id]; if(!a) return ''; return `<button class="arow" type="button" data-x="act:${esc(id)}"><span class="act-ic" style="--c:${a.c}">${icon(a.ic)}</span><span class="arow-m"><b>${esc(a.title)}</b><small>${esc(a.sub)}</small></span>${icon('chev','chev')}</button>`; };
+
+const REC={ansiedad:['breath46','rep:ansiedad','med-breath'],estres:['breath46','rep:estres-bajar','cbt-worry'],tristeza:['cbt-act','rep:animo','chat'],
+  cansancio:['rep:sueno','med-body'],sueno:['med-sleep','breath478','rep:sueno'],irritabilidad:['breath46','cbt-thought'],
+  concentracion:['cbt-worry','breathbox','med-exam'],abrumo:['cbt-ground','cbt-worry'],rumiacion:['cbt-worry','cbt-thought','med-thoughts'],soledad:['chat','cbt-act','pros']};
+const GOALREC={estres:['breath46','rep:estres-bajar'],ansiedad:['rep:ansiedad','breath46','med-breath'],sueno:['med-sleep','breath478'],animo:['cbt-act','cbt-grat'],
+  examen:['med-exam','cbt-worry','breathbox'],entender:['cbt-thought','chat'],soledad:['chat','cbt-act']};
+function topCounts(list,key,n){
+  const c={}; list.forEach(e=>(e[key]||[]).forEach(x=>{ c[x]=(c[x]||0)+1; }));
+  return Object.keys(c).sort((a,b)=>c[b]-c[a]).slice(0,n).map(k=>[k,c[k]]);
+}
+function recentCounts(){
+  const cut=Date.now()-7*86400000, c={};
+  E().forEach(e=>{ if(e.ts>=cut) (e.symptoms||[]).forEach(s=>{ c[s]=(c[s]||0)+1; }); });
+  return c;
+}
+function recommended(max){
+  const out=[], add=id=>{ if(ACT[id]&&id.indexOf('rep:')!==0&&out.indexOf(id)<0) out.push(id); };
+  const rc=recentCounts();
+  Object.keys(rc).sort((a,b)=>rc[b]-rc[a]).forEach(s=>(REC[s]||[]).forEach(add));
+  if(S.event&&S.event.date&&S.event.date>=todayStr()) GOALREC.examen.forEach(add);
+  S.goals.forEach(g=>(GOALREC[g]||[]).forEach(add));
+  ['breath46','med-breath','cbt-thought','chat','cbt-grat','cbt-worry'].forEach(add);
+  return out.slice(0,max||8);
+}
+function sortedReports(){
+  const rc=recentCounts(), soon=!!(S.event&&S.event.date&&S.event.date>=todayStr());
+  return REPORTS.map((r,i)=>{
+    let sc=0; r.rel.forEach(s=>{ sc+=rc[s]||0; });
+    S.goals.forEach(g=>(GOAL_SYM[g]||[]).forEach(s=>{ if(r.rel.indexOf(s)>-1) sc+=2; }));
+    if(soon&&r.id==='ansiedad-examen') sc+=3;
+    return {r,sc,i};
+  }).sort((a,b)=>(b.sc-a.sc)||(a.i-b.i));
+}
+function symLabel(id){
+  if(id===CARE.id) return 'Pensamiento difícil';
+  const s=SYMPTOMS.filter(x=>x.id===id)[0]; if(s) return s.label;
+  const h=HABITS.filter(x=>x.id===id)[0]; return h?h.label:id;
+}
+
+/* ---------- Hoja inferior, avisos y ayuda ---------- */
+const Sheet={
+  open(html){ $('sheetBody').innerHTML=html; $('sheet').hidden=false; const c=$('sheet').querySelector('[data-x="close"]'); if(c) c.focus(); },
+  close(){ $('sheet').hidden=true; }
+};
+function toast(title,body){
+  const t=document.createElement('div');
+  t.className='toast'; t.setAttribute('role','status');
+  t.innerHTML=`${icon('bell')}<div><strong>${esc(title)}</strong><p>${esc(body)}</p></div>`;
+  t.addEventListener('click',()=>t.remove());
+  $('toasts').appendChild(t);
+  setTimeout(()=>{ if(t.parentNode) t.remove(); },8000);
+}
+function helpLinesHtml(){
+  return '<ul class="lines">'
+   +'<li><strong>135</strong><span>Centro de Asistencia al Suicida. Gratis desde CABA y Gran Buenos Aires.</span></li>'
+   +'<li><strong>(011) 5275-1135</strong><span>El mismo servicio, desde cualquier lugar del país.</span></li>'
+   +'<li><strong>0800 345 1435</strong><span>El mismo servicio, línea gratuita desde todo el país.</span></li>'
+   +'<li><strong>911</strong><span>Emergencias en todo el país. En CABA también podés llamar al 107 (SAME).</span></li>'
+   +'</ul><p class="small" style="margin-top:12px">Horarios y más datos en <a href="https://www.asistenciaalsuicida.org.ar" target="_blank" rel="noopener">asistenciaalsuicida.org.ar</a>.</p>';
+}
+function helpHtml(){
+  return `<div class="head"><div><h2>Hablá con alguien ahora</h2><p class="muted small">Si estás en peligro o pensás en hacerte daño, pedí ayuda ya. No tenés que pasar por esto solo/a.</p></div><button class="x" type="button" data-x="close" aria-label="Cerrar">&#10005;</button></div>${helpLinesHtml()}<p class="small" style="margin-top:16px">Si podés, pedile a alguien de confianza que esté con vos.</p><button class="btn ghost" style="margin-top:14px" type="button" data-x="go:pros">Ver profesionales</button>`;
+}
+function openReport(id){
+  const r=REPORTS.filter(x=>x.id===id)[0]; if(!r) return;
+  let h=`<div class="head"><div><span class="pill"><i style="background:${r.c}"></i>${esc(r.tag)}</span><h2 style="margin-top:8px">${esc(r.title)}</h2></div><button class="x" type="button" data-x="close" aria-label="Cerrar">&#10005;</button></div><div class="report">`;
+  r.sections.forEach(s=>{
+    h+=`<h3>${esc(s.h)}</h3>`;
+    if(s.p) h+=`<p>${esc(s.p)}</p>`;
+    if(s.ul) h+='<ul>'+s.ul.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>';
+    if(s.ol) h+='<ol>'+s.ol.map(x=>`<li>${esc(x)}</li>`).join('')+'</ol>';
+  });
+  if(r.breath) h+='<div style="margin-top:12px"><button class="btn small" type="button" data-x="act:breath46">Hacer una pausa de respiración</button></div>';
+  if(r.videos&&r.videos.length) h+='<h3>Videos para entenderlo mejor</h3><ul class="links">'+r.videos.map(v=>`<li><a href="${ytLink(v[1])}" target="_blank" rel="noopener">${esc(v[0])}</a> <span class="muted small">(búsqueda en YouTube)</span></li>`).join('')+'</ul>';
+  if(r.when) h+=`<div class="when"><strong>Cuándo consultar:</strong> ${esc(r.when)}</div>`;
+  h+='<p class="fine">Información educativa. No es un diagnóstico.</p></div>';
+  Sheet.open(h);
+}
+
+/* ---------- Gráficos ---------- */
+function weekChart(list){
+  const W=340,H=190,L=78,R=14,T=14,B=30,pw=W-L-R,ph=H-T-B,y=m=>T+(5-m)/4*ph;
+  const pts=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-i);
+    const k=ymd(d), es=list.filter(e=>dayKey(e.ts)===k);
+    pts.push({x:L+(6-i)*pw/6,m:es.length?avg(es.map(e=>e.mood)):null,d,today:i===0});
+  }
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Ánimo de los últimos 7 días"><defs><linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--accent);stop-opacity:.3"/><stop offset="1" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs>`;
+  MOODS.forEach(mo=>{ s+=`<line class="grid" x1="${L}" x2="${W-R}" y1="${y(mo.v)}" y2="${y(mo.v)}"/><text x="${L-8}" y="${y(mo.v)+3.5}" text-anchor="end">${mo.l}</text>`; });
+  const segs=[]; let seg=[];
+  pts.forEach(p=>{ if(p.m==null){ if(seg.length) segs.push(seg); seg=[]; } else seg.push(p); });
+  if(seg.length) segs.push(seg);
+  segs.forEach(sg=>{
+    if(sg.length>1){
+      const line=sg.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+' '+y(p.m).toFixed(1)).join(' ');
+      s+=`<path d="${line} L${sg[sg.length-1].x.toFixed(1)} ${T+ph} L${sg[0].x.toFixed(1)} ${T+ph} Z" fill="url(#gA)"/><path class="line" d="${line}"/>`;
+    }
+  });
+  pts.forEach(p=>{ if(p.m!=null) s+=`<circle class="pt" cx="${p.x.toFixed(1)}" cy="${y(p.m).toFixed(1)}" r="6" style="fill:${MOODS[Math.round(p.m)-1].c}"/>`; });
+  pts.forEach(p=>{ s+=`<text x="${p.x.toFixed(1)}" y="${H-9}" text-anchor="middle">${p.today?'hoy':p.d.toLocaleDateString('es-AR',{weekday:'short'}).replace('.','')}</text>`; });
+  return s+'</svg>';
+}
+function calendar(list){
+  const by={}; list.forEach(e=>{ (by[dayKey(e.ts)]=by[dayKey(e.ts)]||[]).push(e.mood); });
+  const end=new Date(); end.setHours(0,0,0,0);
+  const start=new Date(end); start.setDate(end.getDate()-((end.getDay()+6)%7)-28);
+  let h='<div class="cal">'+['L','M','X','J','V','S','D'].map(d=>`<span class="dow">${d}</span>`).join('');
+  for(let i=0;i<35;i++){
+    const d=new Date(start); d.setDate(start.getDate()+i);
+    const k=ymd(d), ms=by[k], m=ms?Math.round(avg(ms)):null;
+    h+=`<span class="day${d>end?' fut':''}${k===todayStr()?' today':''}"${m?` style="background:${MOODS[m-1].c}"`:''} title="${esc(fmtShort(d.getTime()))}${m?': '+MOODS[m-1].l:''}"><i>${d.getDate()}</i></span>`;
+  }
+  return h+'</div><div class="legend"><span>Muy mal</span><span class="sw">'+MOODS.map(m=>`<i style="background:${m.c}"></i>`).join('')+'</span><span>Muy bien</span></div>';
+}
+function insightRows(list){
+  const rows=[];
+  HABITS.forEach(h=>{
+    const w=[],o=[]; list.forEach(e=>((e.habits||[]).indexOf(h.id)>-1?w:o).push(e.mood));
+    if(w.length>=3&&o.length>=3) rows.push({label:h.label,d:avg(w)-avg(o)});
+  });
+  const hi=[],lo=[]; list.forEach(e=>{ if(e.sleep!=null) (e.sleep>=7?hi:lo).push(e.mood); });
+  if(hi.length>=3&&lo.length>=3) rows.push({label:'Dormí 7 horas o más',d:avg(hi)-avg(lo)});
+  return rows.sort((a,b)=>Math.abs(b.d)-Math.abs(a.d)).slice(0,5);
+}
+function barsHtml(pairs,label){
+  if(!pairs.length) return '<p class="muted small" style="margin:8px 0 0">Todavía no hay datos.</p>';
+  const max=pairs[0][1];
+  return '<div class="bars">'+pairs.map(p=>`<div class="bar"><span>${esc(label(p[0]))}</span><span class="muted">${p[1]} ${p[1]===1?'día':'días'}</span><span class="track"><span class="fill" style="width:${p[1]/max*100}%"></span></span></div>`).join('')+'</div>';
+}
+const demoBanner=()=>demoOn()?'<div class="demo">Estás viendo <b>datos de ejemplo</b>. Cuando registres algo, empiezan los tuyos.</div>':'';
+const group=(title,sub,body)=>`<section class="home-sec"><div class="sec-head"><div><h2>${title}</h2>${sub?`<p class="muted small" style="margin:2px 0 0">${sub}</p>`:''}</div></div>${body}</section>`;
+function carousel(id,title,cards){
+  return `<section class="home-sec"><div class="sec-head"><h2>${title}</h2><div class="arrows"><button type="button" data-x="scroll:${id}:-1" aria-label="Anteriores">&#8249;</button><button type="button" data-x="scroll:${id}:1" aria-label="Siguientes">&#8250;</button></div></div><div class="carousel" id="${id}" tabindex="0" aria-label="${esc(title)}">${cards.join('')}</div></section>`;
+}
+
+/* ---------- Inicio ---------- */
+function lastMoodToday(){ const t=todayStr(), es=A()&&E().filter(e=>dayKey(e.ts)===t); return es.length?es[es.length-1].mood:null; }
+function renderHome(){
+  const st=stats(), list=E(), t=new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});
+  const lm=lastMoodToday();
+  const say=st.q.check
+    ?(lm!=null&&lm<=2?'Hoy fue duro. Acá estoy con vos.':(st.streak>=3?`¡Ya van ${st.streak} días seguidos!`:'Bien ahí. Hoy ya te registraste.'))
+    :(st.streak>0?`Seguimos la racha: ${st.streak} ${st.streak===1?'día':'días'}.`:'¿Cómo venís hoy? Te espero.');
+  let h=demoBanner();
+  h+=`<section class="hero"><div class="hero-top"><div class="hero-txt"><p class="eyebrow">Bienvenido/a · ${esc(t)}</p><h1>Hola${S.name?', '+esc(S.name):''}</h1><p class="hero-say">${esc(say)}</p></div><div class="hero-brote">${broteSvg(st.stage,!st.q.check,st.q.check)}</div></div>
+    <button class="btn cta" type="button" data-x="checkin"><span class="plus" aria-hidden="true">+</span>Agregar síntoma</button>
+    <div class="hero-stats"><div class="hs">${icon('flame')}<div><b>${st.streak}</b><span>${st.streak===1?'día seguido':'días seguidos'}</span></div></div><div class="hs">${icon('star')}<div><b>${STAGES[st.stage-1]}</b><span>Nivel ${st.level} · ${st.into}/120 XP</span></div></div></div>
+    <div class="xpbar"><span style="width:${st.into/120*100}%"></span></div></section>`;
+
+  const qs=[
+    {done:st.q.check,t:'Registrá cómo estás',s:'Tu ánimo y lo que notaste',x:'checkin',xp:20},
+    {done:st.q.calm,t:'Hacé una pausa de calma',s:'Respiración o meditación',x:'act:'+(S.goals.indexOf('sueno')>-1?'breath478':'breath46'),xp:10},
+    {done:st.q.cbt,t:'Probá un ejercicio mental',s:'Un ejercicio de TCC',x:'act:'+(S.goals.indexOf('ansiedad')>-1?'cbt-worry':'cbt-thought'),xp:15}
+  ];
+  h+=`<section class="home-sec"><div class="sec-head"><h2>Misiones de hoy</h2><span class="pill sun">${qs.filter(q=>q.done).length}/3</span></div><div class="card quests">`
+    +qs.map(q=>`<button class="quest${q.done?' done':''}" type="button"${q.done?' disabled':''} data-x="${q.x}"><span class="qc">${q.done?icon('check'):''}</span><span class="qm"><b>${esc(q.t)}</b><small>${esc(q.s)}</small></span><span class="qx">+${q.xp} XP</span></button>`).join('')
+    +'</div></section>';
+
+  const top=topCounts(list.filter(e=>e.ts>=Date.now()-7*86400000),'symptoms',3);
+  h+=`<section class="home-sec"><div class="sec-head"><h2>Tu semana</h2><button class="link-btn" type="button" data-x="go:progress">Ver progreso</button></div><div class="card">${weekChart(list)}${top.length?`<div class="tags" style="margin-top:10px"><span class="muted small">Lo que más se repitió:</span>${top.map(p=>`<span class="tag">${esc(symLabel(p[0]))}</span>`).join('')}</div>`:''}</div></section>`;
+
+  h+=carousel('carA','Para practicar hoy',recommended(8).map(actionCard));
+  h+=carousel('carB','Informes para entenderte mejor',sortedReports().map(x=>actionCard('rep:'+x.r.id)));
+
+  const last=list.filter(e=>e.ts>=Date.now()-7*86400000);
+  const heavy=(last.length>=3&&avg(last.map(e=>e.mood))<=2.5)||last.some(e=>e.care);
+  h+=`<section class="home-sec"><div class="nudge-card${heavy?' strong':''}"><div class="nc-ic">${icon('heart')}</div><div><h2>${heavy?'Esta semana viene pesada':'¿Querés hablar con alguien?'}</h2><p>${heavy?'Hablar con un profesional puede ayudarte a sentirte mejor. Pedir ayuda también es cuidarte.':'Un/a psicólogo/a puede acompañarte cuando lo que sentís se sostiene o te supera.'}</p><button class="btn small" type="button" data-x="go:pros">Ver profesionales</button></div></div></section>`;
+
+  const tip=TIPS[Math.floor(new Date().setHours(0,0,0,0)/86400000)%TIPS.length], td=todayStr();
+  const todays=S.reminders.filter(r=>r.on&&remActive(r,td)).sort((a,b)=>a.time<b.time?-1:(a.time>b.time?1:0)).slice(0,3);
+  h+=`<section class="home-sec"><div class="duo"><div class="tile soft"><h2>Consejo del día</h2><p>${esc(tip)}</p></div><div class="tile"><h2>Para hoy</h2>${todays.length?'<ul class="todo">'+todays.map(r=>`<li><b>${esc(r.time)}</b><span>${esc(r.title)}</span></li>`).join('')+'</ul>':'<p>No tenés avisos activos para hoy.</p>'}<button class="link-btn" type="button" data-x="go:profile">Ajustar avisos</button></div></div></section>`;
+
+  h+=group('Mitos y verdades','','<div>'+MYTHS.map(m=>`<details class="sym"><summary>${esc(m.q)}</summary><div class="sym-body"><p style="margin:0">${esc(m.a)}</p></div></details>`).join('')+'</div>');
+  h+='<p class="fine">Pausa ofrece información general y no reemplaza una consulta con un profesional de salud mental.</p>';
+  return h;
+}
+
+/* ---------- Practicar ---------- */
+function soundSection(){
+  return `<div class="card"><div class="snd">`+SOUNDS.map(s=>`<button class="chip" type="button" aria-pressed="${SND.kind===s.id}" data-x="snd:${s.id}">${icon('sound')}${s.l}</button>`).join('')
+    +`</div><h3>Apagar solo</h3><div class="chips">`+[[0,'Nunca'],[15,'15 min'],[30,'30 min'],[60,'1 hora']].map(l=>`<button class="chip sm" type="button" aria-pressed="${SND.limit===l[0]}" data-x="sndlim:${l[0]}">${l[1]}</button>`).join('')
+    +`</div>${SND.kind?'<p class="muted small" style="margin:12px 0 0">Está sonando. Tocá el mismo sonido para parar.</p>':'<p class="muted small" style="margin:12px 0 0">Sonidos generados en tu dispositivo, sin conexión.</p>'}</div>`;
+}
+function renderPractice(){
+  let h='<h1>Practicar</h1><p class="lead">Herramientas cortas para calmarte, dormir mejor y pensar con más claridad.</p>';
+  h+=`<button class="big" type="button" data-x="act:chat" style="margin-top:14px"><div class="brote-s">${broteSvg(stats().stage,false,true)}</div><div><b>Hablar con Brote</b><span>Contale cómo estás y te muestra qué probar.</span></div></button>`;
+  h+=group('Respirar','Para bajar la activación del cuerpo','<div class="rows">'+['breath46','breathbox','breath478'].map(actionRow).join('')+'</div>');
+  h+=group('Meditar','Guiadas, con voz opcional y sonido de fondo','<div class="rows">'+['med-breath','med-body','med-exam','med-thoughts','med-grat'].map(actionRow).join('')+'</div>');
+  h+=group('Para dormir','Bajá el ritmo antes de acostarte','<div class="rows">'+['med-sleep','med-prm','breath478'].map(actionRow).join('')+'</div>');
+  h+=group('Sonidos','Ambiente para estudiar, descansar o dormir',soundSection());
+  h+=group('Ejercicios de terapia cognitivo-conductual','Herramientas que se usan en terapia, para hacer por tu cuenta','<div class="rows">'+['cbt-thought','cbt-worry','cbt-act','cbt-ground','cbt-grat'].map(actionRow).join('')+'</div>');
+  h+='<p class="fine">Estos ejercicios son apoyo y no reemplazan un tratamiento.</p>';
+  return h;
+}
+
+/* ---------- Progreso ---------- */
+function renderProgress(){
+  const list=E(), act=A(), st=statsOf(act), last7=list.filter(e=>e.ts>=Date.now()-7*86400000);
+  let h='<h1>Tu progreso</h1><p class="lead">Cómo vienen tus días y qué se relaciona con tu ánimo.</p>'+demoBanner();
+  h+=`<div class="duo" style="margin-top:14px"><div class="tile"><h2>${last7.length?fmt1(avg(last7.map(e=>e.mood))):'-'} de 5</h2><p>Ánimo promedio de la semana</p></div><div class="tile soft"><h2>${st.best} ${st.best===1?'día':'días'}</h2><p>Tu mejor racha seguida</p></div></div>`;
+  h+=`<div class="card" style="margin-top:14px"><h2>Ánimo de los últimos 7 días</h2>${weekChart(list)}</div>`;
+  h+=`<div class="card"><h2>Tu mes en colores</h2><p class="muted small" style="margin:0">Cada cuadrito es un día.</p>${calendar(list)}</div>`;
+  const ins=insightRows(list);
+  h+=`<div class="card"><h2>Qué se relaciona con tu ánimo</h2><p class="muted small" style="margin:0">Diferencia de ánimo (de 1 a 5) entre los días con y sin cada cosa.</p>`;
+  h+=ins.length?ins.map(r=>`<div class="irow"><span>${esc(r.label)}</span><span class="itrack"><span class="ifill ${r.d>=0?'pos':'neg'}" style="width:${Math.min(50,Math.abs(r.d)/1.5*50)}%"></span></span><span class="iv">${r.d>=0?'+':'−'}${fmt1(Math.abs(r.d))}</span></div>`).join('')+'<p class="muted small" style="margin:14px 0 0">Es una asociación y no prueba que una cosa cause la otra. Se afina con más días de registro.</p>':'<p class="muted small" style="margin:10px 0 0">Con unos 10 días de registros con hábitos y sueño, acá aparece qué se relaciona con tu ánimo.</p>';
+  h+='</div>';
+  h+=`<div class="card"><h2>Emociones más frecuentes</h2>${barsHtml(topCounts(list,'emotions',5),x=>x)}<h3 style="margin-top:20px">Síntomas más frecuentes</h3>${barsHtml(topCounts(list,'symptoms',5),symLabel)}</div>`;
+  const c=badgeCtx(list,act);
+  h+=`<div class="card"><div class="sec-head" style="margin:0"><h2>Logros</h2><span class="pill sun">Nivel ${st.level}</span></div><p class="muted small" style="margin:0">Brote está en etapa ${STAGES[st.stage-1].toLowerCase()}. Crece cuando registrás y practicás.</p><div class="badges">`
+    +BADGES.map(b=>`<div class="badge${b.ok(c)?'':' lock'}"><span class="bi">${icon(b.ic)}</span>${esc(b.l)}</div>`).join('')+'</div></div>';
+  const jr=S.journal.slice().sort((a,b)=>b.ts-a.ts).slice(0,5);
+  h+='<div class="card"><h2>Tu diario</h2>';
+  h+=jr.length?'<ul class="entries">'+jr.map(j=>`<li class="entry"><div class="row"><b>${esc(j.title)}</b><span class="muted">${esc(fmtShort(j.ts))}</span></div><p>${esc(j.summary||'')}</p></li>`).join('')+'</ul>':'<p class="muted small" style="margin:8px 0 0">Los ejercicios de TCC que hagas se guardan acá.</p>';
+  h+='<h3 style="margin-top:20px">Registros recientes</h3><ul class="entries">'
+    +list.slice().sort((a,b)=>b.ts-a.ts).slice(0,8).map(e=>{
+      const tg=(e.emotions||[]).concat((e.symptoms||[]).map(symLabel)).map(x=>`<span class="tag">${esc(x)}</span>`).join('')+(e.care?'<span class="tag">Pensamiento difícil</span>':'')+(e.sample?'<span class="tag ex">Ejemplo</span>':'');
+      return `<li class="entry"><div class="row"><b>${face(e.mood,18)}${MOODS[e.mood-1].l}</b><span class="muted">${esc(fmtShort(e.ts))}</span></div>${tg?`<div class="tags">${tg}</div>`:''}${e.note?`<p>${esc(e.note)}</p>`:''}</li>`;
+    }).join('')+'</ul></div>';
+  return h;
+}
+
+/* ---------- Profesionales ---------- */
+const PRO_SPEC=['Ansiedad','Estrés académico','Ánimo','Sueño','Duelo','Vínculos'];
+const PROS=[
+  {id:'p1',n:'Lic. Sofía B.',r:'Psicóloga · Terapia cognitivo-conductual',s:['Ansiedad','Estrés académico'],m:'Online',slots:['Mar 18:00','Jue 10:30','Vie 16:00'],c:'var(--c-breath)',about:'Acompaña a jóvenes y adultos con ansiedad y estrés en épocas de exámenes. La primera consulta sirve para conocerse y definir objetivos.'},
+  {id:'p2',n:'Lic. Martín Q.',r:'Psicólogo · Terapia cognitivo-conductual',s:['Ánimo','Sueño'],m:'Online',slots:['Lun 19:00','Mié 12:00','Sáb 10:00'],c:'var(--c-med)',about:'Trabaja con ánimo bajo, desmotivación y problemas de sueño, con ejercicios prácticos entre sesiones.'},
+  {id:'p3',n:'Lic. Camila F.',r:'Psicóloga · Enfoque integrativo',s:['Vínculos','Duelo','Ánimo'],m:'Presencial',slots:['Mar 11:00','Mié 17:30','Jue 18:30'],c:'var(--c-chat)',about:'Espacio para pensar vínculos, pérdidas y cambios importantes, a un ritmo que se adapta a cada persona.'},
+  {id:'p4',n:'Dr. Nicolás A.',r:'Psiquiatra · Evaluación y tratamiento',s:['Ánimo','Ansiedad','Sueño'],m:'Online',slots:['Lun 15:00','Jue 09:00','Vie 11:30'],c:'var(--c-sleep)',about:'Evaluación clínica y, si hace falta, tratamiento con medicación, en coordinación con tu psicólogo/a.'},
+  {id:'p5',n:'Lic. Julieta R.',r:'Psicóloga · Orientación a estudiantes',s:['Estrés académico','Ansiedad'],m:'Online',slots:['Mié 19:30','Vie 10:00','Sáb 12:00'],c:'var(--c-cbt)',about:'Orientación para organizar el estudio, bajar los nervios ante evaluaciones y sostener hábitos.'}
+];
+const PF={spec:'Todos',mode:'Todos'};
+const PS={id:null,slot:null,share:true,note:'',sent:false};
+function renderPros(){
+  let h='<h1>Profesionales</h1><p class="lead">Cuando lo que sentís se sostiene o te supera, hablar con alguien capacitado ayuda.</p>';
+  h+='<div class="banner"><b>Perfiles de ejemplo.</b> En la versión real, acá se conectan profesionales matriculados. Los turnos que pidas en esta demo no se envían a nadie.</div>';
+  h+='<div class="card" style="margin-top:14px"><h2>¿Cuándo conviene consultar?</h2><ul class="when-list"><li>Lo que sentís dura más de dos semanas.</li><li>Afecta tu sueño, tus estudios o tus vínculos.</li><li>Tenés ataques de pánico o miedos que te limitan.</li><li>Sentís que no podés solo/a.</li><li>Pensás en hacerte daño: en ese caso pedí ayuda ya. <button class="link-btn" type="button" data-x="help">Ver líneas de ayuda</button></li></ul></div>';
+  h+='<h2 style="margin-top:26px">Encontrá a alguien</h2><div class="chips" style="margin-top:10px">'+['Todos'].concat(PRO_SPEC).map(s=>`<button class="chip sm" type="button" aria-pressed="${PF.spec===s}" data-x="pfs:${esc(s)}">${esc(s)}</button>`).join('')+'</div>';
+  h+='<div class="chips" style="margin-top:8px">'+['Todos','Online','Presencial'].map(s=>`<button class="chip sm" type="button" aria-pressed="${PF.mode===s}" data-x="pfm:${s}">${s==='Todos'?'Cualquier modalidad':s}</button>`).join('')+'</div>';
+  const list=PROS.filter(p=>(PF.spec==='Todos'||p.s.indexOf(PF.spec)>-1)&&(PF.mode==='Todos'||p.m===PF.mode));
+  h+='<div style="margin-top:14px">'+(list.length?list.map(p=>`<button class="pro" type="button" data-x="pro:${p.id}"><span class="pav" style="--c:${p.c}"><span>${esc(p.n.split(' ')[1].charAt(0))}</span></span><span class="pro-m"><b>${esc(p.n)}</b><small>${esc(p.r)}</small><span class="tags">${p.s.map(x=>`<span class="tag">${esc(x)}</span>`).join('')}<span class="tag">${p.m}</span><span class="tag ex">Ejemplo</span></span></span></button>`).join(''):'<p class="muted">No hay perfiles con esos filtros.</p>')+'</div>';
+  if(S.requests.length){
+    h+='<h2 style="margin-top:28px">Mis solicitudes</h2><div class="card" style="margin-top:10px"><ul class="when-list" style="list-style:none;padding:0;margin:0">'+S.requests.slice().reverse().map(r=>`<li><b>${esc(r.name)}</b> · ${esc(r.slot)}<br><span class="muted small">Solicitud de ejemplo guardada en este dispositivo</span></li>`).join('')+'</ul></div>';
+  }
+  h+='<div class="card" style="margin-top:26px"><h2>Si es urgente</h2><p class="muted small">Estas líneas son reales y atienden en todo el país.</p>'+helpLinesHtml()+'</div>';
+  h+='<p class="fine">Pausa no es un servicio de salud ni de emergencias.</p>';
+  return h;
+}
+function weekSummaryText(){
+  const l=E().filter(e=>e.ts>=Date.now()-7*86400000);
+  if(!l.length) return 'Todavía no tengo registros de la última semana.';
+  const sl=l.filter(e=>e.sleep!=null).map(e=>e.sleep), tops=topCounts(l,'symptoms',3).map(p=>symLabel(p[0]).toLowerCase());
+  return `Ánimo promedio de la última semana: ${fmt1(avg(l.map(e=>e.mood)))} de 5 (${l.length} registros). `+(tops.length?`Lo más frecuente: ${tops.join(', ')}. `:'')+(sl.length?`Sueño promedio: ${fmt1(avg(sl))} horas.`:'')+(demoOn()?' (Datos de ejemplo)':'');
+}
+function proSheetHtml(){
+  const p=PROS.filter(x=>x.id===PS.id)[0]; if(!p) return '';
+  let h=`<div class="head"><div style="display:flex;gap:12px;align-items:center"><span class="pav" style="--c:${p.c}"><span>${esc(p.n.split(' ')[1].charAt(0))}</span></span><div><h2 style="margin:0">${esc(p.n)}</h2><p class="muted small" style="margin:0">${esc(p.r)}</p></div></div><button class="x" type="button" data-x="close" aria-label="Cerrar">&#10005;</button></div>`;
+  if(PS.sent){
+    return h+`<div class="done" style="padding-top:18px"><h2>Solicitud guardada (demo)</h2><p class="muted">Pediste ${esc(PS.slot)} con ${esc(p.n)}. En la versión real, el profesional recibiría tu mensaje y confirmaría el turno. En esta demo no se envió a nadie.</p><button class="btn" type="button" data-x="close" style="margin-top:12px">Listo</button></div>`;
+  }
+  h+=`<p style="margin-top:14px">${esc(p.about)}</p><div class="tags">${p.s.map(x=>`<span class="tag">${esc(x)}</span>`).join('')}<span class="tag">${p.m}</span><span class="tag ex">Perfil de ejemplo</span></div>`;
+  h+='<h3>Elegí un horario</h3><div class="chips">'+p.slots.map(s=>`<button class="slot" type="button" aria-pressed="${PS.slot===s}" data-x="slot:${esc(s)}">${esc(s)}</button>`).join('')+'</div>';
+  h+=`<div class="field"><label for="psNote">¿Qué te gustaría contarle? (opcional)</label><textarea id="psNote" data-ps="note" rows="3" placeholder="Ej.: Vengo con mucha ansiedad por los exámenes.">${esc(PS.note)}</textarea></div>`;
+  h+=`<label class="checkrow"><input type="checkbox" data-ps="share"${PS.share?' checked':''}><span>Compartir el resumen de mi semana con el profesional</span></label>`;
+  if(PS.share) h+=`<div class="quote muted small" style="margin-top:10px">${esc(weekSummaryText())}</div>`;
+  h+=`<button class="btn" type="button" data-x="slotsend" style="margin-top:16px"${PS.slot?'':' disabled'}>Pedir turno</button>`;
+  return h;
+}
+
+/* ---------- Perfil y avisos ---------- */
+function renderProfile(){
+  let h='<button class="link-btn" type="button" data-x="go:back" style="margin-top:6px">&#8249; Volver</button><h1>Mi perfil</h1>';
+  h+=`<div class="card"><h2>Sobre vos</h2><div class="field"><label for="pfName">Tu nombre</label><input type="text" id="pfName" data-pf="name" maxlength="30" value="${esc(S.name)}"></div><h3>Lo que querés trabajar</h3><div class="chips">`
+    +GOALS.map(g=>`<button class="chip sm" type="button" aria-pressed="${S.goals.indexOf(g.id)>-1}" data-x="goal:${g.id}">${esc(g.label)}</button>`).join('')+'</div>';
+  const ev=S.event||{};
+  h+=`<h3>Algo importante por delante</h3><div class="two"><div class="field" style="margin-top:0"><label for="pfEvt">¿Qué?</label><input type="text" id="pfEvt" data-pf="evtName" maxlength="60" placeholder="Ej.: Parcial de Psicología" value="${esc(ev.name||'')}"></div><div class="field" style="margin-top:0"><label for="pfDate">¿Qué día?</label><input type="date" id="pfDate" data-pf="evtDate" min="${todayStr()}" value="${esc(ev.date||'')}"></div></div></div>`;
+  h+=`<div class="card"><h2>Recordatorios</h2><p class="muted small">Te avisan para estudiar, respirar o descansar.</p><div class="rems" style="margin-top:10px">${remindersHtml()}</div><h3 style="margin-top:20px">Ideas para empezar</h3>${ideasHtml()}<h3 style="margin-top:20px">Agregar uno propio</h3><div class="two"><div class="field" style="margin-top:0"><label for="remTitle">¿Qué querés que te recuerde?</label><input type="text" id="remTitle" maxlength="80" placeholder="Ej.: Llamar a mi hermana"></div><div class="field" style="margin-top:0"><label for="remTime">¿A qué hora?</label><input type="time" id="remTime" value="20:00"></div></div><div style="margin-top:12px"><button class="btn small" type="button" data-x="remadd">Agregar recordatorio</button></div><p class="fine" style="margin-top:14px">En este prototipo los avisos aparecen dentro de la app y solo mientras está abierta. Para recibirlos con la app cerrada hace falta publicarla como app instalable con notificaciones.</p></div>`;
+  h+=`<div class="card"><h2>Datos y privacidad</h2><p class="muted small">Tus registros se guardan solo en este navegador. Nadie más los ve.</p><div id="wipeBox"><button class="link-btn danger" type="button" data-x="wipeask">Borrar todos mis datos</button></div><div style="margin-top:8px"><button class="link-btn" type="button" data-x="redo">Ver la bienvenida de nuevo</button></div></div>`;
+  h+='<p class="fine">Pausa ofrece información general y no reemplaza una consulta con un profesional de salud mental.</p>';
+  return h;
+}
+
+/* ---------- Navegación ---------- */
+const TABS=[['home','Inicio','home'],['practice','Practicar','leaf'],['fab'],['progress','Progreso','bars'],['pros','Profesional','heart']];
+let TAB='home', PREV='home';
+function buildTabs(){
+  $('tabs').innerHTML=TABS.map(t=>t[0]==='fab'
+    ?`<button class="fab" type="button" data-x="checkin" aria-label="Agregar síntoma">${icon('plus')}</button>`
+    :`<button class="tab" type="button" data-x="go:${t[0]}" data-tab="${t[0]}">${icon(t[2])}${t[1]}</button>`).join('');
+}
+function render(){
+  const f={home:renderHome,practice:renderPractice,progress:renderProgress,pros:renderPros,profile:renderProfile}[TAB];
+  $('screen').innerHTML=f();
+  const tabs=document.querySelectorAll('.tab');
+  for(let i=0;i<tabs.length;i++){ if(tabs[i].getAttribute('data-tab')===TAB) tabs[i].setAttribute('aria-current','page'); else tabs[i].removeAttribute('aria-current'); }
+  $('avatar').textContent=(S.name||'?').charAt(0).toUpperCase();
+}
+function go(t){
+  if(t==='back') t=PREV||'home';
+  else if(t==='profile'&&TAB!=='profile') PREV=TAB;
+  TAB=t; render(); scrollTop0();
+}
+
+/* ---------- Motor de flujos a pantalla completa ---------- */
+const Flow={
+  cfg:null,i:-1,ans:{},h:{},iv:[],to:[],
+  begin(){ this.stop(); this.cfg={}; this.h={}; this.ans={}; $('flow').hidden=false; document.body.classList.add('lock'); },
+  stop(){ this.iv.forEach(id=>clearInterval(id)); this.to.forEach(id=>clearTimeout(id)); this.iv=[]; this.to=[]; stopSound(); speakStop(); },
+  tick(fn,ms){ const id=setInterval(fn,ms); this.iv.push(id); return id; },
+  later(fn,ms){ const id=setTimeout(fn,ms); this.to.push(id); return id; },
+  close(){ this.stop(); this.cfg=null; $('flow').hidden=true; document.body.classList.remove('lock'); render(); },
+  show(body,foot,o){
+    o=o||{};
+    $('flowBody').innerHTML=body; $('flowFoot').innerHTML=foot||''; $('flowFoot').hidden=!foot;
+    $('flowBar').parentNode.style.visibility=o.bar===false?'hidden':'visible';
+    $('flowBack').style.visibility=o.back?'visible':'hidden';
+    $('flowClose').style.visibility=(this.cfg&&this.cfg.noClose&&!o.canClose)?'hidden':'visible';
+    if(!o.keep) $('flowBody').scrollTop=0;
+  },
+  progress(p){ $('flowBar').style.width=Math.max(0,Math.min(100,Math.round(p*100)))+'%'; },
+  open(cfg){ this.begin(); this.cfg=cfg; this.ans=Object.assign({},cfg.init||{}); this.i=-1; this.go(1); },
+  lastIdx(){ const st=this.cfg.steps; let j=st.length-1; while(j>=0&&st[j].skip&&st[j].skip(this.ans)) j--; return j; },
+  go(dir){
+    const c=this.cfg; if(!c||!c.steps) return;
+    let j=this.i+dir;
+    while(c.steps[j]&&c.steps[j].skip&&c.steps[j].skip(this.ans)) j+=dir;
+    if(j>=c.steps.length){ c.finish(this.ans); return; }
+    if(j<0) return;
+    this.i=j; this.render();
+  },
+  valid(){ const s=this.cfg.steps[this.i]; return !s.valid||s.valid(this.ans); },
+  refreshNext(){ const b=$('flowNext'); if(b) b.disabled=!this.valid(); },
+  rerender(){ const sc=$('flowBody').scrollTop; this.render(true); $('flowBody').scrollTop=sc; },
+  render(keep){
+    const c=this.cfg, s=c.steps[this.i], a=this.ans, last=this.i===this.lastIdx();
+    let h=`<p class="flow-title">${esc(c.title||'')}</p>`;
+    if(s.title) h+=`<h1>${esc(s.title)}</h1>`;
+    if(s.text) h+=`<p class="lead">${esc(s.text)}</p>`;
+    if(s.type==='info') h+=s.html||'';
+    else if(s.type==='text') h+=`<div class="field"><textarea data-k="${s.key}" rows="${s.rows||5}" placeholder="${esc(s.placeholder||'')}" aria-label="${esc(s.title||'')}">${esc(a[s.key]||'')}</textarea></div>`;
+    else if(s.type==='line') h+=`<div class="field"><input class="inp" type="text" data-k="${s.key}" maxlength="${s.max||40}" placeholder="${esc(s.placeholder||'')}" value="${esc(a[s.key]||'')}" autocomplete="${s.ac||'off'}" aria-label="${esc(s.title||'')}"></div>`;
+    else if(s.type==='slider'){
+      const v=a[s.key]!=null?a[s.key]:(s.def!=null?s.def:50); a[s.key]=v;
+      h+=`<div class="slider"><input type="range" data-k="${s.key}" min="${s.min}" max="${s.max}" step="${s.step||1}" value="${v}" aria-label="${esc(s.title||'')}"><div class="sl-l"><span>${esc(s.minL||'')}</span><b data-out="${s.key}">${v}</b><span>${esc(s.maxL||'')}</span></div></div>`;
+    }
+    else if(s.type==='choice'||s.type==='multi'){
+      const multi=s.type==='multi';
+      h+='<div class="opts">'+s.options.map(o=>{
+        const on=multi?(a[s.key]||[]).indexOf(o[0])>-1:String(a[s.key])===String(o[0]);
+        return `<button type="button" class="opt" data-k="${s.key}" data-v="${esc(o[0])}" data-m="${multi?'multi':'single'}" aria-pressed="${on}">${esc(o[1])}</button>`;
+      }).join('')+'</div>';
+    }
+    else if(s.type==='custom') h+=s.render(a);
+    const lbl=s.next||(last?(c.lastLabel||'Listo'):'Siguiente');
+    this.show(h,`<button class="btn" id="flowNext" type="button" data-fa="next"${this.valid()?'':' disabled'}>${esc(lbl)}</button>`,{back:this.i>0,bar:true,keep});
+    this.progress((this.i+1)/c.steps.length);
+  }
+};
+function wireFlow(){
+  const fl=$('flow');
+  fl.addEventListener('input',e=>{
+    const t=e.target, k=t.getAttribute&&t.getAttribute('data-k'); if(!k) return;
+    Flow.ans[k]=t.type==='range'?+t.value:t.value;
+    if(t.type==='range'){ const o=fl.querySelector('[data-out="'+k+'"]'); if(o) o.textContent=t.value; }
+    Flow.refreshNext();
+  });
+  fl.addEventListener('click',e=>{
+    const b=e.target.closest('button[data-k][data-v]');
+    if(b){
+      const k=b.dataset.k, v=b.dataset.v;
+      if(b.dataset.m==='multi'){ const arr=Flow.ans[k]||[], ix=arr.indexOf(v); if(ix>-1) arr.splice(ix,1); else arr.push(v); Flow.ans[k]=arr; }
+      else Flow.ans[k]=(String(Flow.ans[k])===v&&b.dataset.t==='1')?null:v;
+      Flow.rerender(); return;
+    }
+    const f=e.target.closest('[data-fa]');
+    if(f){
+      const n=f.dataset.fa;
+      if(n==='next') Flow.go(1); else if(n==='back') Flow.go(-1); else if(n==='close') Flow.close();
+      else if(Flow.h[n]) Flow.h[n](f,e);
+    }
+  });
+}
+
+/* ---------- Registro (agregar síntoma) ---------- */
+const chipBtn=(k,v,l,sel,extra)=>`<button type="button" class="chip${extra||''}" data-k="${k}" data-v="${esc(v)}" data-m="multi" aria-pressed="${sel.indexOf(v)>-1}">${esc(l)}</button>`;
+const moodStep=a=>'<div class="moodrow">'+MOODS.map(m=>`<button type="button" class="mood2" data-k="mood" data-v="${m.v}" data-m="single" aria-pressed="${String(a.mood)===String(m.v)}">${face(m.v,44)}<span>${m.l}</span></button>`).join('')+'</div>';
+const emotionStep=a=>{ const sel=a.emotions||[]; return '<div class="quad">'+EMO.map(q=>`<div class="q" style="--tint:${q.tint}"><b>${q.label}</b><div class="chips">${q.items.map(it=>chipBtn('emotions',it,it,sel,' sm')).join('')}</div></div>`).join('')+'</div>'; };
+const symptomStep=a=>{ const sel=a.symptoms||[]; return '<div class="chips" style="margin-top:14px">'+SYMPTOMS.map(s=>chipBtn('symptoms',s.id,s.label,sel,'')).join('')+'</div><p class="sub">Si es algo más serio</p><div class="chips">'+chipBtn('symptoms',CARE.id,CARE.label,sel,' care')+'</div>'; };
+const habitStep=a=>{
+  const sel=a.habits||[];
+  return '<h3>Hábitos de hoy</h3><div class="chips">'+HABITS.map(h=>chipBtn('habits',h.id,h.label,sel,'')).join('')
+   +'</div><h3 style="margin-top:22px">¿Cuántas horas dormiste anoche?</h3><div class="chips">'
+   +[['4','Menos de 5'],['5','5 h'],['6','6 h'],['7','7 h'],['8','8 h'],['9','9 h o más']].map(o=>`<button type="button" class="chip" data-k="sleep" data-v="${o[0]}" data-m="single" data-t="1" aria-pressed="${String(a.sleep)===o[0]}">${o[1]}</button>`).join('')+'</div>';
+};
+const ctxStep=a=>{
+  let h='<div class="opts">'+[['examen','Un examen'],['presentacion','Una presentación o entrevista'],['nada','Nada en particular']].map(o=>`<button type="button" class="opt" data-k="kind" data-v="${o[0]}" data-m="single" data-t="1" aria-pressed="${a.kind===o[0]}">${o[1]}</button>`).join('')+'</div>';
+  if(a.kind==='examen'||a.kind==='presentacion') h+=`<div class="two"><div class="field"><label for="evtName">¿Qué materia o evento?</label><input type="text" id="evtName" data-k="evtName" maxlength="60" placeholder="Ej.: Psicología Evolutiva" value="${esc(a.evtName||'')}"></div><div class="field"><label for="evtDate">¿Qué día?</label><input type="date" id="evtDate" data-k="evtDate" min="${todayStr()}" value="${esc(a.evtDate||'')}"></div></div>`;
+  return h;
+};
+const hasEvent=()=>!!(S.event&&S.event.date&&S.event.date>=todayStr());
+function openCheckin(){
+  Sheet.close();
+  Flow.open({title:'Agregar síntoma',lastLabel:'Ver mi resumen',init:{emotions:[],symptoms:[],habits:[]},steps:[
+    {type:'custom',title:'¿Cómo te sentiste hoy?',text:'Elegí el que más se parezca.',render:moodStep,valid:a=>!!a.mood},
+    {type:'custom',title:'¿Qué emociones aparecieron?',text:'Elegí todas las que quieras.',render:emotionStep},
+    {type:'custom',title:'¿Notaste algo de esto?',text:'Si no, seguí al siguiente paso.',render:symptomStep},
+    {type:'custom',title:'Tu día en breve',text:'Los hábitos y el sueño ayudan a ver patrones.',render:habitStep},
+    {type:'custom',skip:hasEvent,title:'¿Tenés algo importante por delante?',text:'Si hay una fecha, te armo recordatorios.',render:ctxStep},
+    {key:'note',type:'text',title:'Algo para recordar de hoy',text:'Opcional.',rows:4,placeholder:'Lo que pasó, lo que pensaste, lo que te ayudó.'}
+  ],finish:finishCheckin});
+}
+function finishCheckin(a){
+  const all=a.symptoms||[], care=all.indexOf('dano')>-1, syms=all.filter(x=>x!=='dano');
+  const entry={id:Date.now(),ts:Date.now(),mood:+a.mood,emotions:a.emotions||[],symptoms:syms,care,habits:a.habits||[],
+    sleep:a.sleep?(a.sleep==='4'?4.5:+a.sleep):null,note:(a.note||'').trim()};
+  if(a.kind==='examen'||a.kind==='presentacion') S.event={kind:a.kind,name:(a.evtName||'').trim(),date:a.evtDate||''};
+  S.entries.push(entry);
+  const added=suggestReminders(syms), msgs=award('check',20,{mood:entry.mood});
+  showCheckinResult(entry,added,msgs);
+}
+function careCard(){
+  return `<div class="care-card" role="region" aria-label="Apoyo"><h2>Lo que marcaste importa</h2><p style="margin-top:6px">Gracias por contarlo. Pensar en hacerte daño o en que sería mejor no estar es serio, y no tenés que atravesarlo solo/a. Hablar hoy con alguien de confianza o con una línea de ayuda puede hacer una diferencia.</p>${helpLinesHtml()}<p class="small" style="margin:12px 0 0">Si sentís que podrías actuar sobre ese pensamiento, llamá al 911 o pedile a alguien que se quede con vos ahora.</p></div>`;
+}
+function showCheckinResult(entry,added,msgs){
+  const st=stats(), m=MOODS[entry.mood-1];
+  let h=`<div class="res-top"><div class="brote-s">${broteSvg(st.stage,false,true)}</div><div><span class="pill">${face(entry.mood,16)}${m.l}</span><h1 style="font-size:25px;margin:8px 0 6px">${HEAD[entry.mood]}</h1><span class="gain">${icon('star')} +20 XP</span></div></div>`;
+  if(msgs.length) h+=`<p class="gains">${msgs.map(esc).join(' · ')}</p>`;
+  if(entry.care) h+=careCard();
+  else if(entry.mood===1) h+='<p class="small" style="margin-top:14px">Si hoy te está costando mucho, podés hablar con alguien. <button class="link-btn" type="button" data-x="help">Ver líneas de ayuda</button></p>';
+  if(entry.symptoms.length){
+    h+='<h3 style="margin-top:24px">Qué puede estar pasando</h3>';
+    entry.symptoms.forEach((id,i)=>{
+      const d=INFO[id]; if(!d) return;
+      h+=`<details class="sym"${i===0?' open':''}><summary>${esc(symLabel(id))}</summary><div class="sym-body"><h3>Qué es</h3><p>${esc(d.what)}</p><h3>Qué puede pasar en el cuerpo</h3><ul>${d.body.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><h3>Probá esto ahora</h3><ol>${d.tryit.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>${d.when?`<div class="when"><strong>Cuándo consultar:</strong> ${esc(d.when)}</div>`:''}</div></details>`;
+    });
+  }
+  const recs=[]; entry.symptoms.forEach(s=>(REC[s]||[]).forEach(id=>{ if(recs.indexOf(id)<0) recs.push(id); }));
+  if(!recs.length) (entry.mood>=4?['cbt-grat','med-grat']:['breath46','cbt-grat']).forEach(id=>recs.push(id));
+  h+='<h3 style="margin-top:24px">Para probar ahora</h3><div class="rows">'+recs.slice(0,3).map(actionRow).join('')+'</div>';
+  if(entry.mood<=2||entry.care) h+=`<div class="nudge-card strong" style="margin-top:18px"><div class="nc-ic">${icon('heart')}</div><div><h2>¿Querés hablar con un profesional?</h2><p>Pedir ayuda también es cuidarte.</p><button class="btn small" type="button" data-x="go:pros">Ver profesionales</button></div></div>`;
+  if(added.length) h+='<div class="card" style="margin-top:18px"><h2>Te dejé recordatorios</h2><ul class="todo" style="margin-top:10px">'+added.map(r=>`<li><b>${esc(r.time)}</b><span>${esc(r.title)}</span></li>`).join('')+'</ul><button class="link-btn" type="button" data-x="go:profile" style="margin-top:8px">Ver y ajustar</button></div>';
+  Flow.show(h,'<button class="btn" type="button" data-fa="close">Listo</button>',{bar:false});
+}
+
+/* ---------- Bienvenida ---------- */
+function welcomeHtml(){
+  const v=(c,ic,t,s)=>`<li><span class="act-ic" style="--c:${c}">${icon(ic)}</span><div><b>${t}</b><br><span class="muted small">${s}</span></div></li>`;
+  return `<div class="welcome"><div class="brote-s">${broteSvg(1,false,true)}</div><h1 style="margin-top:6px">Te damos la bienvenida a Pausa</h1><p class="lead" style="margin:0 auto">Un espacio para registrar cómo te sentís, entenderlo y cuidarte.</p></div><ul class="vals">${v('var(--c-learn)','bars','Registrá cómo estás','Tu ánimo, tus emociones y lo que notaste.')}${v('var(--c-chat)','book','Entendé lo que te pasa','Explicaciones claras, basadas en psicología.')}${v('var(--c-med)','lotus','Practicá lo que ayuda','Respiración, meditación y ejercicios de terapia.')}</ul><p class="fine">Pausa no reemplaza a un profesional. Si estás en peligro, usá el botón "Necesito ayuda" de arriba.</p>`;
+}
+function openOnboarding(){
+  Flow.open({title:'Bienvenida',noClose:true,lastLabel:'Empezar',
+    init:{name:S.name||'',goals:S.goals.slice(),kind:S.event?S.event.kind:null,evtName:S.event?S.event.name:'',evtDate:S.event?S.event.date:'',rem:'18:00'},
+    steps:[
+      {type:'custom',next:'Empezar',render:welcomeHtml},
+      {key:'name',type:'line',title:'¿Cómo te llamás?',text:'Así te saludo en la app.',placeholder:'Tu nombre',max:30,ac:'given-name',valid:a=>(a.name||'').trim().length>0},
+      {key:'goals',type:'multi',title:'¿Qué querés trabajar?',text:'Elegí lo que quieras. Con eso personalizo lo que te recomiendo.',options:GOALS.map(g=>[g.id,g.label])},
+      {type:'custom',title:'¿Tenés algo importante por delante?',text:'Si hay una fecha, te armo recordatorios para prepararte.',render:ctxStep},
+      {key:'rem',type:'choice',title:'¿Cuándo querés tu pausa diaria?',text:'Un aviso suave para registrar cómo estás.',options:[['09:00','Mañana (9:00)'],['18:00','Tarde (18:00)'],['21:00','Noche (21:00)'],['none','Sin avisos por ahora']]}
+    ],
+    finish:finishOnboarding});
+}
+function finishOnboarding(a){
+  S.name=(a.name||'').trim(); S.goals=a.goals||[]; S.onboarded=true;
+  if(a.kind==='examen'||a.kind==='presentacion') S.event={kind:a.kind,name:(a.evtName||'').trim(),date:a.evtDate||''};
+  if(a.rem&&a.rem!=='none') mergeReminders([{key:'daily',title:'Tu pausa diaria: ¿cómo estás hoy?',time:a.rem,kind:'diario'}]);
+  suggestReminders([]); save();
+  const st=stats();
+  Flow.show(`<div class="done"><div class="brote-s">${broteSvg(st.stage,false,true)}</div><h1>Todo listo, ${esc(S.name)}</h1><p class="lead" style="margin:0 auto">Empezá registrando cómo estás con el botón <b>+</b>. Brote crece cuando registrás y practicás.</p>${hasEvent()?`<div class="quote">Te dejé recordatorios para prepararte para ${esc(S.event.name||'tu '+(S.event.kind==='examen'?'examen':'presentación'))}. Los ves en tu perfil.</div>`:''}</div>`,'<button class="btn" type="button" data-fa="close">Ir al inicio</button>',{bar:false,canClose:true});
+}
+
+/* ---------- Audio generado en el dispositivo ---------- */
+const SOUNDS=[{id:'lluvia',l:'Lluvia'},{id:'mar',l:'Mar'},{id:'marron',l:'Ruido marrón'},{id:'cuenco',l:'Cuenco'}];
+const SND={kind:null,stop:null,limit:0,timer:null,owner:null};
+const AU={ctx:null};
+function actx(){
+  try{
+    if(!AU.ctx){ const C=window.AudioContext||window.webkitAudioContext; if(!C) return null; AU.ctx=new C(); }
+    if(AU.ctx.state==='suspended') AU.ctx.resume();
+    return AU.ctx;
+  }catch(e){ return null; }
+}
+function noiseSrc(ctx,type){
+  const len=ctx.sampleRate*4, buf=ctx.createBuffer(1,len,ctx.sampleRate), d=buf.getChannelData(0);
+  let last=0;
+  for(let i=0;i<len;i++){ const w=Math.random()*2-1; if(type==='brown'){ last=(last+0.02*w)/1.02; d[i]=last*3.5; } else d[i]=w; }
+  const s=ctx.createBufferSource(); s.buffer=buf; s.loop=true; return s;
+}
+function bellAt(ctx,dest,t0,f,vol){
+  [1,2.76,5.4].forEach((m,i)=>{
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type='sine'; o.frequency.value=f*m;
+    g.gain.setValueAtTime(0.0001,t0); g.gain.linearRampToValueAtTime(vol/(i+1),t0+.02); g.gain.exponentialRampToValueAtTime(.0001,t0+(i?2.2:5));
+    o.connect(g); g.connect(dest); o.start(t0); o.stop(t0+5.2);
+  });
+}
+function armSndTimer(){
+  if(SND.timer){ clearTimeout(SND.timer); SND.timer=null; }
+  if(SND.kind&&SND.limit>0) SND.timer=setTimeout(()=>{ stopSound(); if(TAB==='practice'&&$('flow').hidden) render(); },SND.limit*60000);
+}
+function startSound(kind,owner){
+  stopSound(true);
+  const ctx=actx(); if(!ctx){ toast('Sonido no disponible','Tu navegador no permite generar audio acá.'); return; }
+  const master=ctx.createGain(); master.gain.setValueAtTime(.0001,ctx.currentTime); master.gain.linearRampToValueAtTime(.7,ctx.currentTime+1.5); master.connect(ctx.destination);
+  const nodes=[]; let iv=null;
+  if(kind==='lluvia'){
+    const n=noiseSrc(ctx,'white'), hp=ctx.createBiquadFilter(), lp=ctx.createBiquadFilter(), g=ctx.createGain();
+    hp.type='highpass'; hp.frequency.value=900; lp.type='lowpass'; lp.frequency.value=7500; g.gain.value=.35;
+    n.connect(hp); hp.connect(lp); lp.connect(g); g.connect(master); n.start(); nodes.push(n);
+  } else if(kind==='mar'){
+    const n=noiseSrc(ctx,'brown'), lp=ctx.createBiquadFilter(), g=ctx.createGain(), lfo=ctx.createOscillator(), lg=ctx.createGain();
+    lp.type='lowpass'; lp.frequency.value=700; g.gain.value=.55; lfo.frequency.value=.11; lg.gain.value=.35;
+    lfo.connect(lg); lg.connect(g.gain); n.connect(lp); lp.connect(g); g.connect(master); n.start(); lfo.start(); nodes.push(n,lfo);
+  } else if(kind==='marron'){
+    const n=noiseSrc(ctx,'brown'), g=ctx.createGain(); g.gain.value=.8; n.connect(g); g.connect(master); n.start(); nodes.push(n);
+  } else if(kind==='cuenco'){
+    const ring=()=>bellAt(ctx,master,ctx.currentTime+.05,196,.35); ring(); iv=setInterval(ring,9000);
+  }
+  SND.kind=kind; SND.owner=owner||'page';
+  SND.stop=fast=>{
+    if(iv) clearInterval(iv);
+    const t=ctx.currentTime;
+    try{ master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(Math.max(.0001,master.gain.value),t); master.gain.linearRampToValueAtTime(.0001,t+(fast?.05:1)); }catch(e){}
+    setTimeout(()=>{ nodes.forEach(n=>{ try{ n.stop(); }catch(e){} }); try{ master.disconnect(); }catch(e){} },fast?80:1100);
+  };
+  armSndTimer();
+}
+function stopSound(fast){
+  if(SND.timer){ clearTimeout(SND.timer); SND.timer=null; }
+  if(SND.stop){ const f=SND.stop; SND.stop=null; f(fast); }
+  SND.kind=null; SND.owner=null;
+}
+function bell(){ const ctx=actx(); if(!ctx) return; const g=ctx.createGain(); g.gain.value=.8; g.connect(ctx.destination); bellAt(ctx,g,ctx.currentTime+.05,528,.5); }
+
+/* ---------- Voz (lectura de la guía) ---------- */
+const VOICE={on:false};
+function speak(t){
+  if(!VOICE.on) return;
+  try{
+    const ss=window.speechSynthesis; if(!ss) return;
+    ss.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='es-AR';
+    const v=(ss.getVoices()||[]).filter(x=>/^es/i.test(x.lang))[0]; if(v) u.voice=v;
+    u.rate=.88; ss.speak(u);
+  }catch(e){}
+}
+function speakStop(){ try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){} }
+
+/* ---------- Pantalla final de una actividad ---------- */
+function doneScreen(o){
+  const st=stats();
+  const h=`<div class="done"><div class="brote-s">${broteSvg(st.stage,false,true)}</div><h1>${esc(o.title)}</h1><p class="lead" style="margin:0 auto">${esc(o.text||'')}</p><p style="margin-top:12px"><span class="gain">${icon('star')} +${o.xp} XP</span></p>${o.msgs&&o.msgs.length?`<p class="gains">${o.msgs.map(esc).join(' · ')}</p>`:''}${o.html||''}</div>`;
+  let f=''; (o.extra||[]).forEach(e=>{ f+=`<button class="btn ghost" type="button" data-x="${e[1]}">${esc(e[0])}</button>`; });
+  f+='<button class="btn" type="button" data-fa="close">Listo</button>';
+  Flow.show(h,f,{bar:false,canClose:true});
+}
+
+/* ---------- Respiración guiada ---------- */
+const PATTERNS={
+  '46':{name:'Respiración 4-6',desc:'Inhalás 4 segundos y exhalás 6. La exhalación larga ayuda a bajar la activación del cuerpo.',ph:[['Inhalá',4,1],['Exhalá',6,.55]]},
+  box:{name:'Respiración en caja',desc:'Cuatro tiempos iguales. Ayuda a enfocarte antes de estudiar o rendir.',ph:[['Inhalá',4,1],['Sostené',4,1],['Exhalá',4,.55],['Sostené',4,.55]]},
+  '478':{name:'Respiración 4-7-8',desc:'Una exhalación larga para ir a dormir. Si te marea, hacela más suave.',ph:[['Inhalá',4,1],['Sostené',7,1],['Exhalá',8,.55]]}
+};
+function openBreath(id){
+  const P=PATTERNS[id]; let dur=3;
+  Flow.begin(); Flow.cfg={title:'Respiración'};
+  const setup=()=>Flow.show(`<div class="center"><p class="flow-title">Respiración</p><h1>${esc(P.name)}</h1><p class="lead" style="margin:0 auto">${esc(P.desc)}</p></div><h3 style="text-align:center;margin-top:24px">¿Cuánto tiempo?</h3><div class="chips" style="justify-content:center">${[1,3,5].map(m=>`<button class="chip" type="button" data-fa="dur" data-v="${m}" aria-pressed="${dur===m}">${m} min</button>`).join('')}</div><div class="orb" style="margin-top:26px"><div class="orb-core" style="transform:scale(.7)"></div></div>`,'<button class="btn" type="button" data-fa="start">Empezar</button>',{bar:false});
+  Flow.h.dur=el=>{ dur=+el.dataset.v; setup(); };
+  Flow.h.start=()=>{
+    const total=dur*60, ph=P.ph; let elapsed=0, idx=0, left=0;
+    Flow.show(`<div class="center"><p class="flow-title">${esc(P.name)}</p><div class="orb"><div class="orb-core" id="orb"></div></div><div class="phase" id="bPhase">Preparate</div><div class="count" id="bCount"></div></div>`,'<button class="btn ghost" type="button" data-fa="stop">Terminar ahora</button>',{bar:true});
+    Flow.progress(0);
+    Flow.h.stop=()=>Flow.close();
+    const orb=$('orb'); orb.style.transition='none'; orb.style.transform='scale(.55)'; void orb.offsetWidth;
+    const next=()=>{
+      if(elapsed>=total&&idx%ph.length===0){
+        Flow.stop();
+        const msgs=award('breath',10,{mins:dur});
+        doneScreen({title:'Muy bien',text:`Tomaste ${dur} ${dur===1?'minuto':'minutos'} para vos. ¿Cómo te sentís ahora?`,xp:10,msgs,extra:[['Registrar cómo estoy','checkin']]});
+        return false;
+      }
+      const p=ph[idx%ph.length]; idx++; left=p[1];
+      $('bPhase').textContent=p[0]; $('bCount').textContent=left+' s';
+      orb.style.transition=reduce()?'none':`transform ${p[1]}s ease-in-out`; orb.style.transform=`scale(${p[2]})`;
+      return true;
+    };
+    next();
+    Flow.tick(()=>{ elapsed++; left--; Flow.progress(Math.min(1,elapsed/total)); if(left<=0){ next(); } else $('bCount').textContent=left+' s'; },1000);
+  };
+  setup();
+}
+
+/* ---------- Meditaciones guiadas ---------- */
+const MEDS={
+  breath:{title:'Atención a la respiración',mins:5,desc:'Anclá la atención en el aire que entra y sale.',prompts:[
+    'Buscá una postura cómoda. Podés cerrar los ojos o bajar la mirada.',
+    'Notá tu cuerpo apoyado. Dejá que el peso lo sostenga la silla o el piso.',
+    'Llevá la atención a la respiración, sin cambiarla. Solo observala.',
+    'Sentí el aire entrar por la nariz y salir. Si querés, contá hasta diez y volvé a empezar.',
+    'Si aparecen pensamientos, es normal. Notalos y volvé a la respiración.',
+    'Cada vez que volvés, estás practicando. No hay una forma incorrecta de hacerlo.',
+    'Sentí el pecho y el abdomen moverse suavemente.',
+    'Aflojá la mandíbula y los hombros.',
+    'Dejá la respiración como esté. Quedate unos momentos así.',
+    'Para terminar, mové un poco los dedos y respirá hondo una vez.']},
+  body:{title:'Escaneo corporal',mins:8,desc:'Recorrer el cuerpo de a poco para soltar tensión.',prompts:[
+    'Acomodate y respirá lento un par de veces.',
+    'Llevá la atención a los pies. Notá si hay calor, frío, cosquilleo o nada. Sin cambiar nada.',
+    'Subí a los tobillos y las pantorrillas. Dejá que se aflojen.',
+    'Rodillas y muslos. Sentí el peso apoyado.',
+    'Notá la cadera y la parte baja de la espalda.',
+    'Subí al abdomen. Sentí cómo se mueve con cada respiración.',
+    'Pecho y espalda alta. Dejá que el pecho se abra un poco.',
+    'Hombros. Si están arriba, dejalos caer.',
+    'Brazos, manos y dedos. Soltá todo el peso.',
+    'Cuello y garganta. Aflojá el cuello.',
+    'Mandíbula, mejillas, ojos y frente. Dejá la cara blanda.',
+    'Sentí el cuerpo entero, respirando. Cuando quieras, abrí los ojos.']},
+  exam:{title:'Antes de rendir',mins:3,desc:'Bajá los nervios y volvé a tus recursos.',prompts:[
+    'Apoyá los pies en el piso y sentí que algo te sostiene.',
+    'Respirá lento. Exhalá más largo de lo que inhalás.',
+    'Notá dónde están los nervios en el cuerpo. No hace falta que se vayan. Solo notalos.',
+    'Decite: "mi cuerpo se está activando para rendir". Es energía a tu favor.',
+    'Recordá algo que ya sabés bien. Quedate con esa sensación de saber.',
+    'Respirá una vez más hondo. Estás listo/a para empezar.']},
+  thoughts:{title:'Soltar pensamientos',mins:5,desc:'Mirar los pensamientos pasar sin engancharte.',prompts:[
+    'Sentate cómodo/a y respirá lento.',
+    'Imaginá un río tranquilo. Vos estás en la orilla, mirando.',
+    'Cuando aparezca un pensamiento, imaginá que es una hoja que baja por el agua.',
+    'No lo sigas ni lo empujes. Dejá que pase.',
+    'Si te enganchás con un pensamiento, está bien. Notalo y volvé a la orilla.',
+    'Algunos pensamientos vuelven. Dejalos volver y pasar.',
+    'Los pensamientos no son hechos. Son eventos de la mente.',
+    'Volvé a la respiración como ancla.',
+    'Sentí el cuerpo tranquilo en la orilla.',
+    'Cuando estés listo/a, respirá hondo y abrí los ojos.']},
+  grat:{title:'Gratitud',mins:3,desc:'Notar lo que hoy está bien, aunque sea chico.',prompts:[
+    'Respirá lento y llevá la atención al pecho.',
+    'Pensá en algo de hoy que estuvo bien, por pequeño que sea.',
+    'Pensá en una persona que te hace bien. Imaginá su cara.',
+    'Pensá en algo de tu cuerpo que hoy te sostiene.',
+    'Quedate un momento con esa sensación de agradecimiento.',
+    'Respirá hondo y volvé despacio.']},
+  sleep:{title:'Escaneo para dormir',mins:10,desc:'Una guía lenta para ir soltando el cuerpo antes de dormir.',prompts:[
+    'Acostate cómodo/a. No hace falta hacer nada bien. Dejá que el colchón te sostenga.',
+    'Respirá lento por la nariz. Exhalá largo, como si suspiraras.',
+    'Aflojá los pies. Dejalos pesados.',
+    'Piernas pesadas, rodillas sueltas.',
+    'La cadera se hunde en la cama.',
+    'El abdomen sube y baja solo, sin esfuerzo.',
+    'Pecho tranquilo. Hombros blandos.',
+    'Brazos y manos pesados, dedos sueltos.',
+    'Cuello, mandíbula y cara, sueltos.',
+    'Si aparece un pensamiento, dejalo pasar. Volvé a sentir el peso del cuerpo. Podés dormirte cuando quieras.']},
+  prm:{title:'Relajación muscular',mins:8,desc:'Tensar y soltar cada zona para notar la diferencia.',prompts:[
+    'Acomodate y respirá lento. Vamos a tensar y soltar por zonas.',
+    'Manos: cerrá los puños con fuerza unos segundos. Y soltá de golpe.',
+    'Brazos: apretá los brazos contra el cuerpo. Y soltá.',
+    'Hombros: subilos hacia las orejas. Y dejalos caer.',
+    'Cara: arrugá la frente y los ojos. Y soltá.',
+    'Mandíbula: apretá los dientes suavemente. Y aflojá, dejá la boca entreabierta.',
+    'Pecho: inhalá hondo y sostené. Y soltá el aire despacio.',
+    'Abdomen: metelo hacia adentro. Y soltá.',
+    'Piernas: estirá y tensá los muslos. Y soltá.',
+    'Pies: encogé los dedos de los pies. Y soltá.',
+    'Notá la diferencia entre tensión y soltura en todo el cuerpo.',
+    'Respirá lento. Quedate unos momentos con el cuerpo suelto.']}
+};
+const fmtT=s=>Math.floor(Math.max(0,s)/60)+':'+pad(Math.max(0,s)%60);
+function openMed(id){
+  const M=MEDS[id]; let snd='none', voice=VOICE.on;
+  Flow.begin(); Flow.cfg={title:'Meditación'};
+  const intro=()=>Flow.show(`<div class="center"><p class="flow-title">Meditación</p><h1>${esc(M.title)}</h1><p class="lead" style="margin:0 auto">${esc(M.desc)}</p><p class="muted small">${M.mins} min · guiada</p></div><h3 style="margin-top:22px">Sonido de fondo</h3><div class="chips">${[['none','Ninguno']].concat(SOUNDS.map(s=>[s.id,s.l])).map(s=>`<button class="chip sm" type="button" data-fa="msnd" data-v="${s[0]}" aria-pressed="${snd===s[0]}">${s[1]}</button>`).join('')}</div><label class="checkrow"><input type="checkbox" data-fa="mvoice"${voice?' checked':''}><span>Leerme la guía en voz alta</span></label><p class="muted small" style="margin-top:10px">Podés usar auriculares y cerrar los ojos: al terminar suena una campana.</p>`,'<button class="btn" type="button" data-fa="mstart">Comenzar</button>',{bar:false});
+  Flow.h.msnd=el=>{ snd=el.dataset.v; intro(); };
+  Flow.h.mvoice=el=>{ voice=el.checked; };
+  Flow.h.mstart=()=>{
+    VOICE.on=voice; if(snd!=='none') startSound(snd,'flow');
+    const total=M.mins*60, per=total/M.prompts.length; let elapsed=0, pi=-1, paused=false;
+    Flow.show(`<div class="center"><p class="flow-title">${esc(M.title)}</p><div class="ringwrap"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--surface-2)" stroke-width="8"/><circle id="mRing" cx="60" cy="60" r="54" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg><div class="rt" id="mTime">${fmtT(total)}</div></div><p class="prompt" id="mPrompt" aria-live="polite"></p><div class="ctrl"><button class="icon-btn" type="button" id="mPause" data-fa="mpause" aria-label="Pausar">${icon('pause')}</button></div></div>`,'<button class="btn ghost" type="button" data-fa="mend">Terminar ahora</button>',{bar:false});
+    const setPrompt=()=>{ const i=Math.min(M.prompts.length-1,Math.floor(elapsed/per)); if(i!==pi){ pi=i; $('mPrompt').textContent=M.prompts[i]; speak(M.prompts[i]); } };
+    setPrompt();
+    Flow.h.mpause=()=>{ paused=!paused; $('mPause').innerHTML=icon(paused?'play':'pause'); $('mPause').setAttribute('aria-label',paused?'Continuar':'Pausar'); if(paused) speakStop(); };
+    Flow.h.mend=()=>Flow.close();
+    Flow.tick(()=>{
+      if(paused) return;
+      elapsed++; $('mTime').textContent=fmtT(total-elapsed); $('mRing').style.strokeDashoffset=(339.3*(1-elapsed/total)).toFixed(1);
+      if(elapsed>=total){
+        bell(); Flow.stop();
+        const msgs=award('meditate',15,{mins:M.mins});
+        doneScreen({title:'Listo',text:`Meditaste ${M.mins} minutos. Notá cómo está tu cuerpo ahora.`,xp:15,msgs,extra:[['Registrar cómo estoy','checkin']]});
+      } else setPrompt();
+    },1000);
+  };
+  intro();
+}
+
+/* ---------- Ejercicios de terapia cognitivo-conductual ---------- */
+const ta=(key,title,text,ph,rows,req)=>({key,type:'text',title,text,placeholder:ph,rows:rows||4,valid:req?(a=>(a[key]||'').trim().length>2):null});
+function finishCbt(title,summary,data,html){
+  S.journal.push({id:Date.now(),ts:Date.now(),type:title,title,summary:String(summary).slice(0,180),data});
+  const msgs=award('cbt',15,{t:title});
+  doneScreen({title:'Guardado en tu diario',text:'Hacer este ejercicio ya es cuidarte.',xp:15,msgs,html:html||''});
+}
+const CBT={
+  thought:()=>({title:'Registro de pensamientos',lastLabel:'Guardar',init:{int:50,int2:50},steps:[
+    {type:'info',title:'Un pensamiento no es un hecho',next:'Empezar',html:'<p>Cuando algo duele, la mente a veces saca conclusiones muy rápidas. Este ejercicio te ayuda a mirar la situación con más calma y a buscar una mirada más equilibrada. Lleva unos 5 minutos.</p>'},
+    ta('sit','¿Qué pasó?','Describí la situación en pocas palabras, sin interpretar.','Ej.: Me puse a estudiar y no pude concentrarme.',3,true),
+    {key:'emo',type:'choice',title:'¿Qué emoción sentiste más?',options:['Ansiedad','Tristeza','Enojo','Miedo','Culpa','Vergüenza'].map(x=>[x,x]),valid:a=>!!a.emo},
+    {key:'int',type:'slider',title:'¿Qué tan intensa fue?',min:0,max:100,step:5,minL:'Nada',maxL:'Máxima'},
+    ta('pa','¿Qué pensamiento te pasó por la cabeza?','La frase que se repetía.','Ej.: Voy a desaprobar.',3,true),
+    ta('pro','¿Qué evidencia hay a favor de ese pensamiento?','Hechos concretos, no sensaciones.','Ej.: Me fue mal en el último parcial.',4,false),
+    ta('con','¿Y qué evidencia hay en contra?','Cosas que muestran que no es 100% cierto.','Ej.: Aprobé otras materias. Estoy estudiando.',4,false),
+    ta('alt','Un pensamiento más equilibrado','¿Qué le dirías a un amigo/a en tu lugar?','Ej.: Estoy nervioso/a, pero me preparé y puedo hacer mi mejor intento.',4,true),
+    {key:'int2',type:'slider',title:'¿Cómo está la emoción ahora?',min:0,max:100,step:5,minL:'Nada',maxL:'Máxima'}
+  ],finish:a=>finishCbt('Registro de pensamientos',`${a.emo}: de ${a.int} a ${a.int2}. ${a.alt}`,a,`<div class="quote"><b>Tu pensamiento equilibrado</b><br>${esc(a.alt)}</div><p class="muted" style="margin-top:12px">La intensidad de «${esc(a.emo)}» pasó de ${a.int} a ${a.int2}.</p>`)}),
+  worry:()=>({title:'Descarga de preocupaciones',lastLabel:'Guardar',steps:[
+    ta('w','¿Qué te preocupa?','Escribilo todo, sin ordenar. Cuanto más salga, mejor.','Ej.: El parcial, que no llego con los apuntes, lo que va a pensar mi familia…',6,true),
+    ta('doable','¿Qué parte sí podés mover hoy?','Lo que depende de vos.','Ej.: Armar el cronograma de estudio.',3,false),
+    ta('first','El primer paso de 5 minutos','Algo tan chico que sea fácil empezar.','Ej.: Abrir los apuntes y marcar los temas.',3,false),
+    {key:'later',type:'choice',title:'¿Dejamos el resto para después?',text:'Elegir un horario para preocuparte ayuda a no hacerlo todo el día.',options:[['hoy','Hoy a las 20:00'],['manana','Mañana a las 10:00'],['no','No, gracias']]}
+  ],finish:a=>{
+    let extra='';
+    if(a.later&&a.later!=='no'){
+      const early=new Date().getHours()<20, today=a.later==='hoy'&&early;
+      mergeReminders([{key:'worry-'+Date.now(),title:'Tu momento para preocuparte: 15 minutos y listo',time:today?'20:00':'10:00',date:today?todayStr():addDays(todayStr(),1),kind:'preocupacion'}]);
+      extra='<p class="muted" style="margin-top:12px">Te dejé un recordatorio para retomarlo.</p>';
+    }
+    finishCbt('Descarga de preocupaciones',a.first?`Primer paso: ${a.first}`:a.w,a,extra);
+  }}),
+  act:()=>({title:'Activación conductual',lastLabel:'Planear',init:{pred:5},steps:[
+    {type:'info',title:'Primero la acción, después las ganas',next:'Empezar',html:'<p>Cuando el ánimo está bajo, esperar a tener ganas suele empeorarlo. Hacer algo chico, aunque cueste, muchas veces mueve el ánimo. Elegí una actividad simple.</p>'},
+    {key:'act',type:'choice',title:'¿Qué actividad elegís?',options:[['Salir a caminar 10 minutos','Salir a caminar 10 minutos'],['Bañarme y cambiarme','Bañarme y cambiarme'],['Escribirle a alguien','Escribirle a alguien'],['Ordenar un rincón','Ordenar un rincón'],['Escuchar una canción que me gusta','Escuchar una canción que me gusta'],['otra','Otra cosa']],valid:a=>!!a.act},
+    Object.assign(ta('otra','¿Cuál?','Escribila.','Ej.: Preparar mate y sentarme al sol.',2,true),{skip:a=>a.act!=='otra'}),
+    {key:'when',type:'choice',title:'¿Cuándo la hacés?',options:[['hoy','Hoy'],['manana','Mañana']],valid:a=>!!a.when},
+    {key:'pred',type:'slider',title:'¿Cómo creés que te vas a sentir después?',text:'De 0 a 10. Después podés comparar con lo que pasó.',min:0,max:10,step:1,def:5,minL:'Peor',maxL:'Mejor'}
+  ],finish:a=>{
+    const what=a.act==='otra'?(a.otra||'').trim():a.act, now=new Date(), todayOk=a.when==='hoy'&&now.getHours()<21;
+    mergeReminders([{key:'act-'+Date.now(),title:'Tu actividad: '+what,time:todayOk?pad(now.getHours()+1)+':00':'10:00',date:todayOk?todayStr():addDays(todayStr(),1),kind:'actividad'}]);
+    finishCbt('Activación conductual',`Planeé: ${what}`,a,`<div class="quote"><b>Tu plan</b><br>${esc(what)}</div><p class="muted" style="margin-top:12px">Te dejé un recordatorio. Después fijate si te sentiste mejor de lo que esperabas.</p>`);
+  }}),
+  ground:()=>({title:'Técnica 5-4-3-2-1',lastLabel:'Terminar',steps:[
+    {type:'info',title:'Volvé al presente',next:'Empezar',html:'<p>Cuando la cabeza se acelera, usar los sentidos ayuda a volver al aquí y ahora. Tomate tu tiempo en cada paso.</p>'},
+    {type:'info',title:'5 cosas que ves',html:'<p>Mirá alrededor y nombrá cinco cosas, en voz alta o mentalmente. Fijate en colores y formas.</p>'},
+    {type:'info',title:'4 cosas que podés tocar',html:'<p>La tela de tu ropa, la mesa, tus manos. Sentí la textura y la temperatura.</p>'},
+    {type:'info',title:'3 cosas que escuchás',html:'<p>Sonidos cercanos y lejanos. Notá si hay silencio entre ellos.</p>'},
+    {type:'info',title:'2 cosas que olés',html:'<p>Si no sentís nada, imaginá dos olores que te gusten.</p>'},
+    {type:'info',title:'1 cosa que saboreás',html:'<p>Notá el gusto en tu boca. Después, respirá hondo una vez.</p>'}
+  ],finish:a=>finishCbt('Técnica 5-4-3-2-1','Ejercicio de anclaje al presente completado.',a)}),
+  grat:()=>({title:'Tres cosas buenas',lastLabel:'Guardar',steps:[
+    ta('g1','Algo bueno de hoy','Puede ser muy chico.','Ej.: Tomé un café tranquilo.',3,true),
+    ta('g2','Alguien o algo que valorás','Una persona, un lugar, un hábito.','Ej.: Mi amiga que me escuchó ayer.',3,true),
+    ta('g3','Algo que hiciste bien','Aunque no haya sido perfecto.','Ej.: Estudié aunque no tenía ganas.',3,true)
+  ],finish:a=>finishCbt('Tres cosas buenas',[a.g1,a.g2,a.g3].join(' · '),a,`<div class="quote">${[a.g1,a.g2,a.g3].map(esc).join('<br>')}</div>`)})
+};
+function openCbt(id){ Flow.open(CBT[id]()); }
+
+/* ---------- Brote: guía conversacional con respuestas armadas ---------- */
+const MENU_REPLIES=[['Ansiedad','ansioso'],['Estrés','estres'],['Mucho en la cabeza','cabeza'],['Tristeza','tristeza'],['Dormir','sueno'],['Un examen','examen']];
+const CHAT={
+  start:{say:['Hola {name}. Soy Brote, tu guía en Pausa.','Ojo: soy una guía con respuestas armadas, no una persona ni un profesional. ¿Cómo estás ahora?'],replies:[['Bien','bien'],['Más o menos','medio'],['Mal','mal'],['Ansioso/a','ansioso'],['No sé','nose']]},
+  bien:{say:['Me alegra. Los buenos momentos también cuentan.','¿Querés registrar qué te ayudó o probar algo para sostenerlo?'],replies:[['Registrar cómo estoy','@checkin'],['Tres cosas buenas','@act:cbt-grat'],['Estoy bien, gracias','fin']]},
+  medio:{say:['Gracias por decirlo. "Más o menos" suele ser cansancio o tensión acumulada.','¿Cuál se parece más a lo tuyo?'],replies:[['Cansancio','cansancio'],['Tensión o estrés','estres'],['Mucho en la cabeza','cabeza']]},
+  mal:{say:['Lamento que estés así. Gracias por contármelo.','¿Qué se parece más a lo que sentís?'],replies:[['Tristeza','tristeza'],['Agotamiento','cansancio'],['Enojo','enojo'],['Soledad','soledad'],['Algo más serio','serio']]},
+  ansioso:{say:['Cuando la ansiedad sube, el cuerpo entró en modo alarma. Es muy incómodo, pero baja.','Probemos algo corto ahora:'],replies:[['Respirar 1 minuto','@act:breath46'],['Escribir lo que me preocupa','@act:cbt-worry'],['Entender qué me pasa','@act:rep:ansiedad'],['Hablar con un profesional','@act:pros']]},
+  nose:{say:['Está bien no saberlo. A veces ayuda ponerle nombre a lo que pasa.','Podemos hacer un registro rápido y te muestro qué puede estar pasando.'],replies:[['Hacer un registro','@checkin'],['Una pausa de respiración','@act:breath46']]},
+  cansancio:{say:['El cansancio suele venir del sueño, del estrés sostenido o de poca pausa.','Dos ideas:'],replies:[['Meditación corta para soltar','@act:med-breath'],['Entender el cansancio','@act:rep:sueno'],['Para dormir mejor','@act:med-sleep']]},
+  estres:{say:['El estrés aparece cuando las demandas parecen más grandes que tus recursos.','Algo para bajarlo:'],replies:[['Respiración 4-6','@act:breath46'],['Cómo bajar el estrés','@act:rep:estres-bajar'],['Anotar mis preocupaciones','@act:cbt-worry']]},
+  cabeza:{say:['Cuando la cabeza da vueltas, escribir ayuda a sacarlo de ahí.'],replies:[['Descarga de preocupaciones','@act:cbt-worry'],['Registro de pensamientos','@act:cbt-thought'],['Soltar pensamientos','@act:med-thoughts']]},
+  tristeza:{say:['La tristeza es parte de estar vivo/a, aunque duela. No tenés que atravesarla solo/a.','Algo pequeño puede mover un poco el ánimo:'],replies:[['Planear una actividad chica','@act:cbt-act'],['Entender el ánimo bajo','@act:rep:animo'],['Hablar con un profesional','@act:pros']]},
+  enojo:{say:['El enojo suele tapar cansancio, frustración o miedo. Primero bajemos la activación.'],replies:[['Respiración 4-6','@act:breath46'],['Registro de pensamientos','@act:cbt-thought']]},
+  soledad:{say:['La soledad es la distancia entre el contacto que tenés y el que necesitás. Es muy común y no es una falla tuya.'],replies:[['Planear algo con alguien','@act:cbt-act'],['Hablar con un profesional','@act:pros']]},
+  sueno:{say:['Cuando la cabeza no baja, dormir cuesta. Algunas ideas:'],replies:[['Escaneo para dormir','@act:med-sleep'],['Respiración 4-7-8','@act:breath478'],['Entender el sueño','@act:rep:sueno']]},
+  examen:{say:['Los exámenes activan mucho al cuerpo. Un poco de nervios ayuda; demasiados bloquean.','¿Probamos algo?'],replies:[['Respirar antes de estudiar','@act:breathbox'],['Meditación "Antes de rendir"','@act:med-exam'],['Ansiedad antes de rendir','@act:rep:ansiedad-examen']]},
+  serio:{say:['Gracias por decírmelo. Lo que me contás es importante y no tenés que pasarlo solo/a.','Si estás en peligro o pensás en hacerte daño, pedí ayuda ahora: hablá con alguien de confianza o llamá al 135 (gratis desde CABA y GBA), al (011) 5275-1135 desde cualquier lugar, o al 911 si es una emergencia.'],replies:[['Ver líneas de ayuda','@help'],['Ver profesionales','@act:pros'],['Quiero seguir hablando','menu']]},
+  menu:{say:['Gracias por escribirlo. Soy una guía con respuestas armadas, así que te propongo caminos. ¿Cuál se parece más?'],replies:MENU_REPLIES},
+  fin:{say:['Acá voy a estar cuando quieras volver.'],replies:[['Cerrar','@close']]}
+};
+function classify(t){
+  const s=t.toLowerCase();
+  if(/suicid|matarme|quitarme la vida|no quiero vivir|quiero morir|hacerme da[ñn]o|lastimarme|mejor no estar/.test(s)) return 'serio';
+  if(/examen|parcial|final|rendir|prueba/.test(s)) return 'examen';
+  if(/dorm|sue[ñn]o|insomnio|desvel/.test(s)) return 'sueno';
+  if(/ansie|nervio|p[aá]nico|angustia|miedo/.test(s)) return 'ansioso';
+  if(/estr[eé]s|estresad|agobi|presi[oó]n|sobrepasad|desbord/.test(s)) return 'estres';
+  if(/triste|llor|deprim|vac[ií]o|desanim/.test(s)) return 'tristeza';
+  if(/solo|soledad|aislad/.test(s)) return 'soledad';
+  if(/enoj|bronca|furi|irrit/.test(s)) return 'enojo';
+  if(/cansad|agotad|sin energ/.test(s)) return 'cansancio';
+  if(/pienso|cabeza|rumi|vueltas|pensamient/.test(s)) return 'cabeza';
+  if(/bien|content|feliz|tranquil/.test(s)) return 'bien';
+  return 'menu';
+}
+function openChat(){
+  Flow.begin(); Flow.cfg={title:'Brote'};
+  Flow.show('<div class="chat" id="chatLog"></div>',`<div class="replies" id="chatReplies"></div><div class="sendrow"><input class="inp" id="chatIn" type="text" maxlength="300" placeholder="Escribí acá…" aria-label="Escribí tu mensaje"><button class="icon-btn" type="button" data-fa="csend" aria-label="Enviar">${icon('send')}</button></div>`,{bar:false});
+  const log=$('chatLog'), fill=t=>t.replace('{name}',S.name||'');
+  let busy=false, cur=null;
+  const toEnd=()=>{ $('flowBody').scrollTop=$('flowBody').scrollHeight; };
+  const bubble=(t,who)=>{ const d=document.createElement('div'); d.className='b '+who; d.textContent=t; log.appendChild(d); toEnd(); };
+  const say=(arr,done)=>{
+    busy=true; $('chatReplies').innerHTML='';
+    let i=0;
+    const step=()=>{
+      if(i>=arr.length){ busy=false; if(done) done(); return; }
+      const ty=document.createElement('div'); ty.className='b bot'; ty.innerHTML='<span class="typing"><i></i><i></i><i></i></span>'; log.appendChild(ty); toEnd();
+      Flow.later(()=>{ ty.remove(); bubble(fill(arr[i]),'bot'); i++; step(); },reduce()?0:Math.min(900,350+arr[i].length*7));
+    };
+    step();
+  };
+  const showReplies=reps=>{
+    cur=reps;
+    $('chatReplies').innerHTML=reps.map((r,i)=>`<button class="reply" type="button" data-fa="creply" data-v="${i}">${esc(r[0])}</button>`).join('');
+    toEnd();
+  };
+  const goNode=id=>{ const n=CHAT[id]||CHAT.menu; say(n.say,()=>showReplies(n.replies||[['Volver al menú','menu'],['Cerrar','@close']])); };
+  const target=t=>{
+    if(t==='@checkin') openCheckin();
+    else if(t==='@help') Sheet.open(helpHtml());
+    else if(t==='@close') Flow.close();
+    else if(t.indexOf('@act:')===0) runAction(t.slice(5));
+    else goNode(t);
+  };
+  Flow.h.creply=el=>{ if(busy||!cur) return; const r=cur[+el.dataset.v]; if(!r) return; bubble(r[0],'me'); $('chatReplies').innerHTML=''; target(r[1]); };
+  Flow.h.csend=()=>{
+    if(busy) return; const inp=$('chatIn'), t=inp.value.trim(); if(!t) return;
+    inp.value=''; bubble(t,'me'); goNode(classify(t));
+  };
+  goNode('start');
+}
+
+/* ---------- Profesionales: solicitud de turno (demo) ---------- */
+function openPro(id){
+  PS.id=id; PS.slot=null; PS.note=''; PS.share=true; PS.sent=false;
+  Sheet.open(proSheetHtml());
+}
+function sendPro(){
+  const p=PROS.filter(x=>x.id===PS.id)[0]; if(!p||!PS.slot) return;
+  S.requests.push({id:Date.now(),ts:Date.now(),pro:p.id,name:p.n,slot:PS.slot,share:PS.share,demo:true});
+  award('request',5,{pro:p.id});
+  PS.sent=true; Sheet.open(proSheetHtml());
+  if(TAB==='pros') render();
+}
+
+/* ---------- Recordatorios (solo dentro de la app, mientras está abierta) ---------- */
+const IDEAS=[
+  {key:'idea-daily',title:'Tu pausa diaria: ¿cómo estás hoy?',time:'20:00',kind:'diario'},
+  {key:'idea-breath',title:'Una pausa de respiración de 1 minuto',time:'13:00',kind:'respiracion'},
+  {key:'idea-walk',title:'Salir a caminar 10 minutos',time:'17:30',kind:'caminata'},
+  {key:'idea-sleep',title:'Bajar el ritmo para dormir: sin pantallas',time:'22:30',kind:'sueno'}
+];
+function mergeReminders(list){
+  const added=[];
+  list.forEach(it=>{
+    const ex=S.reminders.filter(r=>r.key===it.key)[0];
+    if(ex){ if(it.upsert){ const on=ex.on; Object.assign(ex,it); ex.on=on; } return; }
+    const r=Object.assign({on:true},it); S.reminders.push(r); added.push(r);
+  });
+  save(); return added;
+}
+function remActive(r,d){
+  if(r.date) return r.date===d;
+  if(r.from&&d<r.from) return false;
+  if(r.to&&d>r.to) return false;
+  return true;
+}
+function remDesc(r){
+  if(r.date) return (r.date===todayStr()?'Hoy':fmtDay(r.date));
+  if(r.from||r.to) return 'Todos los días'+(r.to?' hasta el '+fmtDay(r.to):'');
+  return 'Todos los días';
+}
+function suggestReminders(syms){
+  const td=todayStr(), out=[], ev=S.event;
+  S.reminders=S.reminders.filter(r=>r.key.indexOf('evt-')!==0||(ev&&ev.date&&ev.date>=td));
+  if(ev&&ev.date&&ev.date>=td){
+    const nm=ev.name?`«${ev.name}»`:(ev.kind==='presentacion'?'tu presentación':'tu examen');
+    out.push({key:'evt-study',upsert:true,title:'Un bloque de estudio para '+nm+' (con una pausa de respiración)',time:'17:00',kind:'estudio',from:td,to:addDays(ev.date,-1)});
+    out.push({key:'evt-eve',upsert:true,title:'Mañana es '+nm+': repasá liviano y dormí temprano',time:'20:30',kind:'previo',date:addDays(ev.date,-1)});
+    out.push({key:'evt-day',upsert:true,title:'Hoy es '+nm+'. Respirá 1 minuto antes de empezar',time:'08:00',kind:'dia',date:ev.date});
+  }
+  const has=k=>syms.indexOf(k)>-1;
+  if(has('sueno')) out.push({key:'sug-sleep',title:'Bajar el ritmo para dormir: sin pantallas y meditación corta',time:'22:30',kind:'sueno'});
+  if(has('ansiedad')||has('estres')||has('abrumo')) out.push({key:'sug-breath',title:'Una pausa de respiración de 1 minuto',time:'13:00',kind:'respiracion'});
+  if(has('tristeza')||has('cansancio')||has('soledad')) out.push({key:'sug-walk',title:'Salir a caminar 10 minutos o ver a alguien',time:'17:30',kind:'caminata'});
+  return mergeReminders(out);
+}
+function remindersHtml(){
+  if(!S.reminders.length) return '<p class="muted small" style="margin:0">Todavía no tenés recordatorios. Elegí una idea o creá uno propio.</p>';
+  return S.reminders.slice().sort((a,b)=>a.time<b.time?-1:(a.time>b.time?1:0)).map(r=>`<div class="rem${r.on?'':' off'}"><button class="switch" type="button" role="switch" aria-checked="${!!r.on}" aria-label="Activar o desactivar" data-x="remtog:${esc(r.key)}"><span></span></button><div><div class="rt">${esc(r.title)}</div><div class="rs">${esc(remDesc(r))}</div></div><input type="time" data-rt="${esc(r.key)}" value="${esc(r.time)}" aria-label="Hora"><div class="acts"><button class="link-btn" type="button" data-x="remtest:${esc(r.key)}">Probar</button><button class="link-btn danger" type="button" data-x="remdel:${esc(r.key)}">Quitar</button></div></div>`).join('');
+}
+function ideasHtml(){
+  const rest=IDEAS.filter(i=>!S.reminders.some(r=>r.key===i.key));
+  if(!rest.length) return '<p class="muted small" style="margin:0">Ya agregaste todas las ideas.</p>';
+  return rest.map(i=>`<div class="idea"><div>${esc(i.title)} <span class="muted small">· ${i.time}</span></div><button class="btn small" type="button" data-x="idea:${i.key}">Agregar</button></div>`).join('');
+}
+function refreshRems(){
+  const box=document.querySelector('.rems'); if(box) box.innerHTML=remindersHtml();
+}
+function tick(){
+  const n=new Date(), hm=pad(n.getHours())+':'+pad(n.getMinutes()), td=todayStr();
+  let ch=false;
+  S.reminders.forEach(r=>{
+    if(r.on&&r.time===hm&&remActive(r,td)&&r.lastFired!==td){ r.lastFired=td; ch=true; toast('Recordatorio',r.title); }
+  });
+  if(ch) save();
+}
+
+/* ---------- Acciones de la interfaz ---------- */
+const X={
+  go:a=>go(a),
+  checkin:()=>{ Sheet.close(); openCheckin(); },
+  act:a=>{ Sheet.close(); runAction(a); },
+  help:()=>Sheet.open(helpHtml()),
+  close:()=>Sheet.close(),
+  scroll:a=>{ const p=a.split(':'), el=$(p[0]); if(el) el.scrollBy({left:(+p[1])*el.clientWidth*.8,behavior:reduce()?'auto':'smooth'}); },
+  snd:a=>{ if(SND.kind===a) stopSound(); else startSound(a,'page'); render(); },
+  sndlim:a=>{ SND.limit=+a; armSndTimer(); render(); },
+  pfs:a=>{ PF.spec=a; render(); },
+  pfm:a=>{ PF.mode=a; render(); },
+  pro:a=>openPro(a),
+  slot:a=>{ PS.slot=a; Sheet.open(proSheetHtml()); },
+  slotsend:()=>sendPro(),
+  goal:a=>{ const i=S.goals.indexOf(a); if(i>-1) S.goals.splice(i,1); else S.goals.push(a); save(); render(); },
+  remadd:()=>{
+    const t=($('remTitle').value||'').trim(), tm=$('remTime').value||'20:00';
+    if(!t){ toast('Falta el texto','Escribí qué querés que te recuerde.'); return; }
+    mergeReminders([{key:'u-'+Date.now(),title:t,time:tm,kind:'propio'}]); render();
+  },
+  remtog:a=>{ const r=S.reminders.filter(x=>x.key===a)[0]; if(r){ r.on=!r.on; save(); refreshRems(); } },
+  remdel:a=>{ S.reminders=S.reminders.filter(x=>x.key!==a); save(); refreshRems(); const i=document.querySelector('.idea'); render(); },
+  remtest:a=>{ const r=S.reminders.filter(x=>x.key===a)[0]; if(r) toast('Recordatorio',r.title); },
+  idea:a=>{ const i=IDEAS.filter(x=>x.key===a)[0]; if(i){ mergeReminders([i]); render(); } },
+  wipeask:()=>{ $('wipeBox').innerHTML='<p class="small" style="margin:0 0 8px">¿Seguro? Se borran tus registros, ejercicios y recordatorios de este navegador.</p><button class="btn small danger" type="button" data-x="wipeyes">Sí, borrar todo</button> <button class="btn small ghost" type="button" data-x="wipeno">Cancelar</button>'; },
+  wipeno:()=>render(),
+  wipeyes:()=>{
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    stopSound();
+    Object.assign(S,{name:'',goals:[],event:null,onboarded:false,entries:[],activity:[],journal:[],reminders:[],requests:[],badges:[]});
+    DEMO=makeDemo(); TAB='home'; render(); scrollTop0(); openOnboarding();
+  },
+  redo:()=>openOnboarding()
+};
+
+document.addEventListener('click',e=>{
+  const el=e.target.closest&&e.target.closest('[data-x]'); if(!el) return;
+  const v=el.getAttribute('data-x'), i=v.indexOf(':'), verb=i<0?v:v.slice(0,i), arg=i<0?'':v.slice(i+1);
+  if(X[verb]){ e.preventDefault(); X[verb](arg,el); }
+});
+document.addEventListener('input',e=>{
+  const t=e.target; if(!t||!t.getAttribute) return;
+  const pf=t.getAttribute('data-pf'), ps=t.getAttribute('data-ps');
+  if(pf){
+    if(pf==='name'){ S.name=t.value.trim().slice(0,30); $('avatar').textContent=(S.name||'?').charAt(0).toUpperCase(); }
+    else {
+      const ev=S.event||{kind:'examen',name:'',date:''};
+      if(pf==='evtName') ev.name=t.value; else ev.date=t.value;
+      S.event=(ev.name||ev.date)?ev:null;
+    }
+    save();
+  }
+  if(ps==='note') PS.note=t.value;
+});
+document.addEventListener('change',e=>{
+  const t=e.target; if(!t||!t.getAttribute) return;
+  const pf=t.getAttribute('data-pf'), ps=t.getAttribute('data-ps'), rt=t.getAttribute('data-rt');
+  if(pf==='evtName'||pf==='evtDate'){ suggestReminders([]); refreshRems(); }
+  if(ps==='share'){ PS.share=t.checked; Sheet.open(proSheetHtml()); }
+  if(rt){ const r=S.reminders.filter(x=>x.key===rt)[0]; if(r&&t.value){ r.time=t.value; r.lastFired=null; save(); } }
+});
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape') return;
+  if(!$('sheet').hidden) Sheet.close();
+  else if(!$('flow').hidden&&!(Flow.cfg&&Flow.cfg.noClose)) Flow.close();
+});
+$('sheet').addEventListener('click',e=>{ if(e.target===$('sheet')) Sheet.close(); });
+
+/* ---------- Inicio ---------- */
+load();
+if(S.event&&S.event.date&&S.event.date<todayStr()) S.event=null;
+DEMO=makeDemo();
+buildTabs(); wireFlow(); render();
+if(!S.onboarded) openOnboarding();
+setInterval(tick,15000);
+})();
+</script>
+</body>
+</html>
